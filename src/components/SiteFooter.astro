@@ -1,6 +1,6 @@
 ---
 import Wordmark from "./Wordmark.astro";
-import { JOURNEY, SUPPORT_EMAIL, SPLANDER_HOME, CHROME_STORE_URL } from "../consts";
+import { JOURNEY, SUPPORT_EMAIL, SPLANDER_HOME, CHROME_STORE_URL, withBase } from "../consts";
 ---
 
 <footer class="band-plum text-slate-300">
@@ -18,7 +18,7 @@ import { JOURNEY, SUPPORT_EMAIL, SPLANDER_HOME, CHROME_STORE_URL } from "../cons
       <ul class="mt-4 space-y-2 text-sm">
         {
           JOURNEY.map((j) => (
-            <li><a href={`/${j.slug}`} class="transition-colors hover:text-white">{j.nav} — {j.eyebrow}</a></li>
+            <li><a href={withBase(j.slug)} class="transition-colors hover:text-white">{j.nav} — {j.eyebrow}</a></li>
           ))
         }
       </ul>
@@ -28,9 +28,9 @@ import { JOURNEY, SUPPORT_EMAIL, SPLANDER_HOME, CHROME_STORE_URL } from "../cons
       <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400">Product</h3>
       <ul class="mt-4 space-y-2 text-sm">
         <li><a href={CHROME_STORE_URL} target="_blank" rel="noopener" class="transition-colors hover:text-white">Add to Chrome</a></li>
-        <li><a href="/premium" class="transition-colors hover:text-white">Premium</a></li>
-        <li><a href="/feedback" class="transition-colors hover:text-white">Feedback</a></li>
-        <li><a href="/privacy" class="transition-colors hover:text-white">Privacy</a></li>
+        <li><a href={withBase("/premium")} class="transition-colors hover:text-white">Premium</a></li>
+        <li><a href={withBase("/feedback")} class="transition-colors hover:text-white">Feedback</a></li>
+        <li><a href={withBase("/privacy")} class="transition-colors hover:text-white">Privacy</a></li>
       </ul>
     </div>
 

@@ -1,7 +1,21 @@
 // Single source of truth for site-wide constants. Copy/brand pulled from the
 // product's marketing.md + store-assets/STORE-LISTING.md (code wins on conflict).
 
-export const SITE_URL = "https://jobs.splander.com";
+// Env-driven so the same source serves the final domain or a Pages subpath.
+// Used for canonical/OG URLs (see src/components/Seo.astro).
+export const SITE_URL = import.meta.env.PUBLIC_SITE_URL ?? "https://jobs.splander.com";
+
+/**
+ * Prefix an internal path with the configured base path so links resolve under
+ * a subpath deploy (e.g. /jobs-website/) AND at the domain root (BASE_URL "/").
+ * Pass root-relative paths only ("/track", "track", "/"). External/hash hrefs
+ * must NOT be passed through this.
+ */
+export function withBase(path = "/"): string {
+  const base = import.meta.env.BASE_URL.replace(/\/$/, ""); // "" or "/jobs-website"
+  const p = "/" + String(path).replace(/^\//, ""); // "/track" | "/"
+  return base + p;
+}
 
 export const SITE_NAME = "Splander Jobs";
 export const STORE_TITLE = "Splander Jobs – Job Application Tracker";

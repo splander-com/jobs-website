@@ -1,5 +1,5 @@
 ---
-import { CHROME_STORE_URL } from "../consts";
+import { CHROME_STORE_URL, withBase } from "../consts";
 
 interface Props {
   href?: string;
@@ -17,6 +17,11 @@ const {
   class: cls = "",
 } = Astro.props;
 
+// Base-prefix internal root-relative links ("/feedback", "/"); leave external
+// URLs and in-page hash links untouched.
+const isInternal = href.startsWith("/") && !href.startsWith("//");
+const resolvedHref = isInternal ? withBase(href) : href;
+
 const base =
   "inline-flex items-center justify-center gap-2 rounded-xl font-semibold transition-transform duration-150 hover:-translate-y-0.5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green";
 const sizes = { md: "px-5 py-2.5 text-sm", lg: "px-7 py-3.5 text-base" };
@@ -30,7 +35,7 @@ const target = external ? "_blank" : undefined;
 ---
 
 <a
-  href={href}
+  href={resolvedHref}
   rel={rel}
   target={target}
   class={`${base} ${sizes[size]} ${variants[variant]} ${cls}`}

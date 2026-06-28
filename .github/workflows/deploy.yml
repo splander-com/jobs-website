@@ -28,6 +28,11 @@ jobs:
       - name: Build
         run: npm run build
         env:
+          # Served from a GitHub Pages project subpath. To switch to the final
+          # domain later: set these to "https://jobs.splander.com" / "/",
+          # re-add public/CNAME, and set the Pages custom domain.
+          PUBLIC_SITE_URL: https://splander-com.github.io
+          PUBLIC_BASE: /jobs-website/
           PUBLIC_SUPABASE_URL: ${{ vars.PUBLIC_SUPABASE_URL }}
           PUBLIC_SUPABASE_ANON_KEY: ${{ vars.PUBLIC_SUPABASE_ANON_KEY }}
       - uses: actions/upload-pages-artifact@v3

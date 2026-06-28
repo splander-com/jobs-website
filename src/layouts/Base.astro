@@ -3,6 +3,7 @@ import "../styles/global.css";
 import Seo from "../components/Seo.astro";
 import SiteHeader from "../components/SiteHeader.astro";
 import SiteFooter from "../components/SiteFooter.astro";
+import { withBase } from "../consts";
 
 interface Props {
   title: string;
@@ -21,8 +22,8 @@ const { title, description, path, ogImage, jsonLd, noindex } = Astro.props;
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="apple-touch-icon" href="/icon-180.png" />
+    <link rel="icon" type="image/svg+xml" href={withBase("/favicon.svg")} />
+    <link rel="apple-touch-icon" href={withBase("/icon-180.png")} />
     <meta name="theme-color" content="#2F1B34" />
     <meta name="generator" content={Astro.generator} />
     <Seo

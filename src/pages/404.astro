@@ -2,6 +2,7 @@
 import Base from "../layouts/Base.astro";
 import CtaButton from "../components/CtaButton.astro";
 import { JOURNEYS } from "../data/journeys";
+import { withBase } from "../consts";
 ---
 
 <Base title="Page not found" description="That page doesn't exist." noindex={true}>
@@ -15,7 +16,7 @@ import { JOURNEYS } from "../data/journeys";
       </div>
       <div class="mt-10 flex flex-wrap justify-center gap-2 text-sm">
         {JOURNEYS.map((j) => (
-          <a href={`/${j.slug}`} class="rounded-full bg-white/10 px-3 py-1 text-slate-200 ring-1 ring-white/15 transition-colors hover:bg-white/15">{j.nav}</a>
+          <a href={withBase(j.slug)} class="rounded-full bg-white/10 px-3 py-1 text-slate-200 ring-1 ring-white/15 transition-colors hover:bg-white/15">{j.nav}</a>
         ))}
       </div>
     </div>

@@ -1,4 +1,6 @@
 ---
+import { withBase } from "../consts";
+
 interface Props {
   index: number;
   slug: string;
@@ -10,7 +12,7 @@ const { index, slug, eyebrow, title, blurb } = Astro.props;
 const num = String(index + 1).padStart(2, "0");
 ---
 <a
-  href={`/${slug}`}
+  href={withBase(slug)}
   class="group relative flex flex-col rounded-2xl border border-slate-100 bg-white p-6 shadow-sm transition-all hover:-translate-y-1 hover:shadow-frame"
 >
   <span class="tnum font-display text-3xl font-extrabold text-slate-200 transition-colors group-hover:text-lime">{num}</span>

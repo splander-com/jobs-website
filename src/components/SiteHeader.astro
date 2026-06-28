@@ -2,25 +2,25 @@
 import Wordmark from "./Wordmark.astro";
 import CtaButton from "./CtaButton.astro";
 import ChromeGlyph from "./ChromeGlyph.astro";
-import { JOURNEY } from "../consts";
+import { JOURNEY, withBase } from "../consts";
 ---
 
 <header class="sticky top-0 z-50 border-b border-slate-100 bg-cream/85 backdrop-blur">
   <nav class="mx-auto flex max-w-6xl items-center justify-between gap-4 px-5 py-3">
-    <a href="/" class="shrink-0" aria-label="Splander Jobs home">
+    <a href={withBase("/")} class="shrink-0" aria-label="Splander Jobs home">
       <Wordmark size={26} />
     </a>
 
     <div class="hidden items-center gap-6 text-sm font-medium text-slate-600 lg:flex">
       {
         JOURNEY.map((j) => (
-          <a href={`/${j.slug}`} class="transition-colors hover:text-slate-900">
+          <a href={withBase(j.slug)} class="transition-colors hover:text-slate-900">
             {j.nav}
           </a>
         ))
       }
-      <a href="/premium" class="transition-colors hover:text-slate-900">Premium</a>
-      <a href="/feedback" class="transition-colors hover:text-slate-900">Feedback</a>
+      <a href={withBase("/premium")} class="transition-colors hover:text-slate-900">Premium</a>
+      <a href={withBase("/feedback")} class="transition-colors hover:text-slate-900">Feedback</a>
     </div>
 
     <CtaButton size="md" class="shrink-0">

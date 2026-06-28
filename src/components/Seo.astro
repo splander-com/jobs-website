@@ -1,5 +1,5 @@
 ---
-import { SITE_NAME, SITE_URL } from "../consts";
+import { SITE_NAME, SITE_URL, withBase } from "../consts";
 
 interface Props {
   title: string;
@@ -21,9 +21,12 @@ const {
   noindex = false,
 } = Astro.props;
 
+// SITE_URL is the origin only; withBase() carries any subpath. Build URLs by
+// concatenation — new URL("/track", origin) would drop the subpath.
+const origin = SITE_URL.replace(/\/$/, "");
 const canonicalPath = path ?? Astro.url.pathname;
-const canonical = new URL(canonicalPath, SITE_URL).href.replace(/\/$/, "") || SITE_URL;
-const ogUrl = new URL(ogImage, SITE_URL).href;
+const canonical = (origin + withBase(canonicalPath)).replace(/\/$/, "") || origin;
+const ogUrl = origin + withBase(ogImage);
 const fullTitle = canonicalPath === "/" ? title : `${title} · ${SITE_NAME}`;
 ---
 
