@@ -1,0 +1,21 @@
+---
+interface Props {
+  title: string;
+  accent?: "green" | "primary" | "coral" | "lime";
+  class?: string;
+}
+const { title, accent = "green", class: cls = "" } = Astro.props;
+const dot = {
+  green: "bg-green/10 text-green",
+  primary: "bg-[#1985f0]/10 text-[#1985f0]",
+  coral: "bg-coral/15 text-coral",
+  lime: "bg-lime/15 text-[#5a8a0a]",
+};
+---
+<div class={`rounded-xl border border-slate-100 bg-white p-6 shadow-sm transition-shadow hover:shadow-md ${cls}`}>
+  <div class={`mb-4 grid h-11 w-11 place-items-center rounded-xl ${dot[accent]}`}>
+    <slot name="icon" />
+  </div>
+  <h3 class="font-display text-lg font-bold text-slate-900">{title}</h3>
+  <p class="mt-2 text-sm leading-relaxed text-slate-600"><slot /></p>
+</div>

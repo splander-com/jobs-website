@@ -1,0 +1,123 @@
+---
+import Base from "../layouts/Base.astro";
+import { SUPPORT_EMAIL } from "../consts";
+const updated = "2026-06-25";
+---
+
+<Base
+  title="Privacy Policy"
+  description="Exactly what Splander Jobs handles, where it lives, and what we do (and don't do) with it. Local-first by default — your job-search data never leaves your device."
+  path="/privacy"
+>
+  <section class="bg-cream">
+    <div class="mx-auto max-w-3xl px-5 py-16">
+      <p class="text-xs font-bold uppercase tracking-wider text-green">Legal</p>
+      <h1 class="mt-2 font-display text-4xl font-extrabold tracking-tight text-slate-900">Privacy Policy</h1>
+      <p class="mt-3 text-sm text-slate-500">Last updated: {updated}</p>
+
+      <div class="prose-sj mt-8">
+        <p>
+          Splander Jobs is a Chrome extension that helps you track job applications you find on
+          LinkedIn, Indeed, Glassdoor and jobnet.co.il. This page describes exactly what data the
+          extension handles, where it lives, and what we do (and don't do) with it.
+        </p>
+
+        <h2>Summary, in one paragraph</h2>
+        <p>
+          Splander Jobs runs entirely in your browser. Every job you track is saved to
+          <code>chrome.storage.local</code> on your own device. The extension does not have a
+          server-side database of your applications, and we never see or transmit your job-search
+          data. The only personal information that ever leaves your device is your email address,
+          <strong>and only if</strong> you choose to submit it to the Premium waitlist. The extension
+          also sends an anonymous, opt-out usage heartbeat (a random id + coarse counts, no personal
+          data), and — only when you explicitly submit feedback — your message plus coarse,
+          non-personal details.
+        </p>
+
+        <h2>What data we handle</h2>
+
+        <h3>1. Job-application data</h3>
+        <p>
+          When you use Splander Jobs on a job page, the extension reads the page's contents — title,
+          company, location, posting URL, salary, and similar fields — so it can attach a status pill
+          and let you save it to your tracker.
+        </p>
+        <ul>
+          <li><strong>Where it lives:</strong> <code>chrome.storage.local</code>, a sandboxed per-extension area of your own browser profile.</li>
+          <li><strong>Where it does NOT live:</strong> Nowhere else. We do not send it to our servers, to a third party, or to anyone.</li>
+          <li><strong>How long:</strong> Until you uninstall the extension or clear your browser profile.</li>
+          <li><strong>Export / delete:</strong> Settings → Your data → Export JSON backup. Uninstalling or clearing extension storage deletes everything.</li>
+        </ul>
+
+        <h3>2. Premium waitlist email (only if you submit it)</h3>
+        <p>
+          <strong>If, and only if,</strong> you type your email and click "Join the waitlist", Splander
+          Jobs sends that one email address to our Supabase project so we can notify you when Premium
+          opens for beta access.
+        </p>
+        <ul>
+          <li><strong>What is sent:</strong> Your email, the app version, and your browser's User-Agent string. Nothing else.</li>
+          <li><strong>What we do NOT use it for:</strong> Unrelated marketing, selling to third parties, or advertising.</li>
+          <li><strong>Delete:</strong> Email <a href={`mailto:${SUPPORT_EMAIL}`}>{SUPPORT_EMAIL}</a> and we'll remove your waitlist row and any associated auth user.</li>
+        </ul>
+
+        <h3>3. Splander Jobs Premium account (only if you sign in)</h3>
+        <p>
+          If you sign in, your settings (and, when you turn on sync, your job-application data) are
+          mirrored to your Supabase Auth account so they roam across devices. Settings → Sign out
+          clears the session; email us to delete the account and all rows associated with it.
+        </p>
+
+        <h3>4. Optional Gmail integration (you grant per-account)</h3>
+        <p>
+          Settings → Gmail lets you connect a Gmail account so Splander Jobs can detect recruiter
+          replies and auto-advance your status. This uses Google's read-only Gmail scope
+          (<code>gmail.readonly</code>), runs entirely in your browser, and forwards nothing
+          off-device. Disconnect any time. The Chrome Web Store build is <strong>read-only</strong>
+          with respect to your Gmail — it never writes, sends, deletes, or edits anything.
+        </p>
+
+        <h3>5. Anonymous usage analytics (on by default, you can opt out)</h3>
+        <p>
+          The extension sends a once-a-day anonymous "heartbeat". Turn it off any time in
+          <strong>Settings → About → "Share anonymous usage data"</strong>.
+        </p>
+        <ul>
+          <li><strong>What is sent:</strong> A random install id (not derived from you or your device), app version, browser language, OS, plan tier, and three coarse flags (sync on/off, Gmail connected, a bucketed job-count range).</li>
+          <li><strong>What is NOT sent:</strong> No email, no job/company/CV/message content, no URLs, no page contents — ever.</li>
+          <li><strong>No third-party analytics SDK</strong> is embedded.</li>
+        </ul>
+
+        <h3>6. Feedback you submit (only when you send it)</h3>
+        <p>
+          The feedback form — in the extension and on this website — sends your message to our Supabase
+          project <strong>only when you click Send</strong>. Nothing is sent just for opening the page.
+        </p>
+        <ul>
+          <li><strong>What is sent:</strong> Your message text (only what you type), an optional email if you provide one for a reply, and coarse non-personal details — app/page, browser language, and the page you were on.</li>
+          <li><strong>What is NOT sent:</strong> No job/company/CV/email content, no page contents, no diagnostic logs.</li>
+          <li><strong>Delete:</strong> Email <a href={`mailto:${SUPPORT_EMAIL}`}>{SUPPORT_EMAIL}</a>.</li>
+        </ul>
+
+        <h2>What we do NOT do</h2>
+        <ul>
+          <li><strong>No third-party analytics SDKs</strong> (no Google Analytics, Mixpanel, Segment, or similar).</li>
+          <li><strong>No advertising</strong> — we don't sell access to your data.</li>
+          <li><strong>No automated apply</strong> — Splander Jobs never submits applications or sends messages on your behalf.</li>
+        </ul>
+
+        <h2>Cookies</h2>
+        <p>Splander Jobs does not set cookies. It uses <code>chrome.storage.local</code> for its own state. This website sets no advertising or tracking cookies.</p>
+
+        <h2>Children's privacy</h2>
+        <p>Splander Jobs is intended for job seekers, who are typically adults. We do not knowingly collect personal information from children under 13.</p>
+
+        <h2>Changes to this policy</h2>
+        <p>We will update this page when the data practices change. The "Last updated" date reflects the most recent revision.</p>
+
+        <h2>Contact</h2>
+        <p>For privacy questions or data-deletion requests, email us at <a href={`mailto:${SUPPORT_EMAIL}`}>{SUPPORT_EMAIL}</a>.</p>
+      </div>
+    </div>
+  </section>
+</Base>

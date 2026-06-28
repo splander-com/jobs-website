@@ -1,0 +1,30 @@
+---
+import Base from "../layouts/Base.astro";
+import Section from "../components/Section.astro";
+import FeedbackForm from "../components/FeedbackForm.astro";
+import { SUPPORT_EMAIL } from "../consts";
+---
+
+<Base
+  title="Share feedback"
+  description="Tell the Splander Jobs team what's working, what's missing, or what broke. We read every message — your feedback shapes what ships next."
+  path="/feedback"
+>
+  <section class="band-plum text-white">
+    <div class="mx-auto max-w-3xl px-5 py-16 text-center lg:py-20">
+      <h1 class="font-display text-4xl font-extrabold tracking-tight sm:text-5xl">We read every message</h1>
+      <p class="mx-auto mt-4 max-w-xl text-lg text-slate-300">
+        A bug, a missing feature, or just a thought — tell us. Splander Jobs is built in the open with its users.
+      </p>
+    </div>
+  </section>
+
+  <Section tone="cream">
+    <div class="mx-auto max-w-2xl">
+      <FeedbackForm />
+      <p class="mt-6 text-center text-sm text-slate-500">
+        Prefer email? Reach us at <a href={`mailto:${SUPPORT_EMAIL}`} class="font-semibold text-green hover:underline">{SUPPORT_EMAIL}</a>.
+      </p>
+    </div>
+  </Section>
+</Base>

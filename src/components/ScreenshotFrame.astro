@@ -1,0 +1,38 @@
+---
+/*
+ * Browser-chrome frame around a product screenshot. Until real captures land
+ * (see media checklist), pass `label` to render a styled placeholder instead.
+ */
+interface Props {
+  src?: string;
+  alt?: string;
+  label?: string;
+  ratio?: string; // e.g. "16/10"
+  class?: string;
+}
+const { src, alt = "", label = "Screenshot coming soon", ratio = "16/10", class: cls = "" } = Astro.props;
+const hasSlot = Astro.slots.has("default");
+---
+<figure class={`overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-frame ${cls}`}>
+  <div class="flex items-center gap-1.5 border-b border-slate-100 bg-slate-50 px-4 py-2.5">
+    <span class="h-2.5 w-2.5 rounded-full bg-coral"></span>
+    <span class="h-2.5 w-2.5 rounded-full bg-amber-300"></span>
+    <span class="h-2.5 w-2.5 rounded-full bg-green"></span>
+  </div>
+  <div class="relative" style={`aspect-ratio:${ratio}`}>
+    {
+      src ? (
+        <img src={src} alt={alt} loading="lazy" decoding="async" class="absolute inset-0 h-full w-full object-cover" />
+      ) : hasSlot ? (
+        <div class="absolute inset-0"><slot /></div>
+      ) : (
+        <div class="absolute inset-0 grid place-items-center bg-gradient-to-br from-slate-50 to-slate-100">
+          <div class="text-center">
+            <div class="mx-auto mb-3 h-10 w-10 rounded-xl bg-white shadow-sm ring-1 ring-slate-200"></div>
+            <p class="text-sm font-medium text-slate-400">{label}</p>
+          </div>
+        </div>
+      )
+    }
+  </div>
+</figure>

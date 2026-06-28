@@ -1,0 +1,81 @@
+---
+/*
+ * Splander Jobs brand mark — ported verbatim from extension/lib/brand-mark.ts
+ * (markSvg + markGeometry). Green→lime progress arc + coral target cap wrapping
+ * a "+" glyph. Keep geometry/colours in sync with the extension; code wins.
+ */
+type Variant = "cream" | "plum" | "light";
+
+interface Props {
+  size?: number;
+  variant?: Variant;
+  radius?: number;
+  id?: string;
+  class?: string;
+}
+
+const { size = 32, variant = "cream", radius, id = "m", class: cls } = Astro.props;
+
+const PALETTE: Record<Variant, { tile: string; track: string; plus: string; halo: boolean }> = {
+  cream: { tile: "#FFF8EE", track: "#84CC16", plus: "#0F172A", halo: false },
+  plum: { tile: "#2F1B34", track: "#FFFFFF", plus: "#FFFFFF", halo: true },
+  light: { tile: "#FFFFFF", track: "#0F172A", plus: "#2F1B34", halo: false },
+};
+
+const R = 12.5;
+const SW = 4.4;
+const SWEEP = 0.78;
+const C = 2 * Math.PI * R;
+const arc = C * SWEEP;
+const endAngle = (-90 + SWEEP * 360) * (Math.PI / 180);
+const plusHalf = 4.4;
+const plusSW = 2.6;
+const haloSW = SW + 1.6;
+const capX = (16 + R * Math.cos(endAngle)).toFixed(2);
+const capY = (16 + R * Math.sin(endAngle)).toFixed(2);
+const capOuter = (SW * 0.62).toFixed(2);
+const capCore = (SW * 0.3).toFixed(2);
+const dashArray = `${arc.toFixed(2)} ${(C - arc).toFixed(2)}`;
+
+const p = PALETTE[variant];
+const gid = `sjmark-${variant}-${id}`;
+const rx = Number((radius ?? size * 0.22).toFixed(2));
+---
+
+<svg
+  width={size}
+  height={size}
+  viewBox="0 0 32 32"
+  fill="none"
+  xmlns="http://www.w3.org/2000/svg"
+  style="display:block"
+  aria-hidden="true"
+  class={cls}
+>
+  <defs>
+    <linearGradient id={gid} x1="0" y1="0" x2="32" y2="32" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#10B981" />
+      <stop offset="1" stop-color="#84CC16" />
+    </linearGradient>
+  </defs>
+  <rect width="32" height="32" rx={rx} fill={p.tile} />
+  {p.halo && (
+    <circle cx="16" cy="16" r={R} stroke={`url(#${gid})`} stroke-width={haloSW} stroke-opacity="0.18" fill="none" />
+  )}
+  <circle cx="16" cy="16" r={R} stroke={p.track} stroke-width={SW} stroke-opacity="0.22" fill="none" />
+  <circle
+    cx="16"
+    cy="16"
+    r={R}
+    stroke={`url(#${gid})`}
+    stroke-width={SW}
+    stroke-linecap="round"
+    stroke-dasharray={dashArray}
+    transform="rotate(-90 16 16)"
+    fill="none"
+  />
+  <circle cx={capX} cy={capY} r={capOuter} fill="#FB7C5E" />
+  <circle cx={capX} cy={capY} r={capCore} fill="#FFFFFF" />
+  <line x1={16 - plusHalf} y1="16" x2={16 + plusHalf} y2="16" stroke={p.plus} stroke-width={plusSW} stroke-linecap="round" />
+  <line x1="16" y1={16 - plusHalf} x2="16" y2={16 + plusHalf} stroke={p.plus} stroke-width={plusSW} stroke-linecap="round" />
+</svg>

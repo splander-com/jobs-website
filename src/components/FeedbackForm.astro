@@ -1,0 +1,172 @@
+---
+/*
+ * Feedback form. POSTs to the Supabase `submit-feedback` edge function.
+ * Public Supabase URL + anon key are build-time injected (PUBLIC_* env).
+ * The anon key is publish-safe (same key bundled in the extension); the table
+ * is insert-only via the function, never readable by the anon client.
+ */
+const SUPABASE_URL = import.meta.env.PUBLIC_SUPABASE_URL ?? "";
+const SUPABASE_ANON = import.meta.env.PUBLIC_SUPABASE_ANON_KEY ?? "";
+const endpoint = SUPABASE_URL ? `${SUPABASE_URL}/functions/v1/submit-feedback` : "";
+---
+
+<form
+  id="feedback-form"
+  class="rounded-2xl border border-slate-100 bg-white p-6 shadow-sm sm:p-8"
+  data-endpoint={endpoint}
+  data-anon={SUPABASE_ANON}
+  novalidate
+>
+  <div class="grid gap-5">
+    <div>
+      <label for="fb-rating" class="block text-sm font-semibold text-slate-900">How's your experience?</label>
+      <div id="fb-rating" class="mt-2 flex gap-2" role="radiogroup" aria-label="Rating">
+        {
+          [1, 2, 3, 4, 5].map((n) => (
+            <button type="button" class="fb-star grid h-10 w-10 place-items-center rounded-lg border border-slate-200 text-slate-300 transition-colors hover:border-amber-300 hover:text-amber-400" data-value={n} aria-label={`${n} star${n > 1 ? "s" : ""}`} aria-pressed="false">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M10 1l2.6 5.3 5.9.9-4.3 4.1 1 5.8L10 14.9 4.8 17.2l1-5.8L1.5 7.2l5.9-.9L10 1z"/></svg>
+            </button>
+          ))
+        }
+      </div>
+      <input type="hidden" name="rating" id="fb-rating-value" value="" />
+    </div>
+
+    <div>
+      <label for="fb-message" class="block text-sm font-semibold text-slate-900">What's on your mind? <span class="text-error">*</span></label>
+      <textarea id="fb-message" name="message" rows="5" maxlength="4000" required
+        class="mt-2 w-full rounded-xl border border-slate-200 px-4 py-3 text-sm outline-none focus:border-green focus:ring-2 focus:ring-green/20"
+        placeholder="Tell us what's working, what's missing, or what broke…"></textarea>
+    </div>
+
+    <div>
+      <label for="fb-email" class="block text-sm font-semibold text-slate-900">Email <span class="font-normal text-slate-400">(optional — to hear back &amp; get product updates)</span></label>
+      <input id="fb-email" name="email" type="email" maxlength="200"
+        class="mt-2 w-full rounded-xl border border-slate-200 px-4 py-3 text-sm outline-none focus:border-green focus:ring-2 focus:ring-green/20"
+        placeholder="you@example.com" />
+    </div>
+
+    <!-- Honeypot: hidden from humans, bots fill it. -->
+    <div class="absolute -left-[9999px]" aria-hidden="true">
+      <label for="fb-company">Company</label>
+      <input id="fb-company" name="company" type="text" tabindex="-1" autocomplete="off" />
+    </div>
+
+    <div class="flex items-center gap-4">
+      <button type="submit" id="fb-submit"
+        class="inline-flex items-center justify-center gap-2 rounded-xl bg-green px-6 py-3 text-sm font-semibold text-white shadow-cta transition-transform hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-60">
+        Send feedback
+      </button>
+      <p id="fb-status" class="text-sm" role="status" aria-live="polite"></p>
+    </div>
+
+    <p class="text-xs leading-relaxed text-slate-400">
+      We only receive what you type, plus your browser and language to help us reproduce issues.
+      No tracking, no selling your data.
+    </p>
+  </div>
+</form>
+
+<script is:inline>
+  (function () {
+    const form = document.getElementById("feedback-form");
+    if (!form) return;
+    const statusEl = document.getElementById("fb-status");
+    const submitBtn = document.getElementById("fb-submit");
+    const ratingValue = document.getElementById("fb-rating-value");
+
+    document.querySelectorAll(".fb-star").forEach(function (star) {
+      star.addEventListener("click", function () {
+        const v = Number(star.getAttribute("data-value"));
+        ratingValue.value = String(v);
+        document.querySelectorAll(".fb-star").forEach(function (s) {
+          const on = Number(s.getAttribute("data-value")) <= v;
+          s.classList.toggle("text-amber-400", on);
+          s.classList.toggle("border-amber-300", on);
+          s.classList.toggle("text-slate-300", !on);
+          s.setAttribute("aria-pressed", on ? "true" : "false");
+        });
+      });
+    });
+
+    function setStatus(msg, ok) {
+      statusEl.textContent = msg;
+      statusEl.className = "text-sm " + (ok ? "text-green" : "text-error");
+    }
+
+    // Stable per-visitor id (the function requires a UUID install_id).
+    function installId() {
+      try {
+        let id = localStorage.getItem("sj_fb_install");
+        if (!id) {
+          id = crypto.randomUUID();
+          localStorage.setItem("sj_fb_install", id);
+        }
+        return id;
+      } catch (_) {
+        return crypto.randomUUID();
+      }
+    }
+
+    form.addEventListener("submit", async function (e) {
+      e.preventDefault();
+      const endpoint = form.getAttribute("data-endpoint");
+      const anon = form.getAttribute("data-anon");
+      const message = form.querySelector("#fb-message").value.trim();
+      const email = form.querySelector("#fb-email").value.trim();
+
+      // Honeypot: a filled hidden field means a bot — fake success, send nothing.
+      if (form.querySelector("#fb-company").value) {
+        form.reset();
+        setStatus("Thanks — we got it. 🙌", true);
+        return;
+      }
+      if (!message) {
+        setStatus("Please add a message first.", false);
+        return;
+      }
+      if (!endpoint || !anon) {
+        setStatus("Feedback isn't configured yet. Email dev@splander.com instead.", false);
+        return;
+      }
+      submitBtn.disabled = true;
+      setStatus("Sending…", true);
+      try {
+        const res = await fetch(endpoint, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            apikey: anon,
+            Authorization: "Bearer " + anon,
+          },
+          body: JSON.stringify({
+            install_id: installId(),
+            // An email = website-update interest (captured to the waitlist by the
+            // function); otherwise it's plain general feedback.
+            category: email ? "website_interest" : "general",
+            message: message,
+            email: email || undefined,
+            rating: ratingValue.value ? Number(ratingValue.value) : null,
+            source: "settings",
+            app_version: "web",
+            platform: "web",
+            locale: navigator.language || null,
+            context: { active_site: "website" },
+          }),
+        });
+        if (!res.ok) throw new Error("bad status " + res.status);
+        form.reset();
+        document.querySelectorAll(".fb-star").forEach(function (s) {
+          s.className = "fb-star grid h-10 w-10 place-items-center rounded-lg border border-slate-200 text-slate-300 transition-colors hover:border-amber-300 hover:text-amber-400";
+          s.setAttribute("aria-pressed", "false");
+        });
+        ratingValue.value = "";
+        setStatus("Thanks — we got it. 🙌", true);
+      } catch (err) {
+        setStatus("Something went wrong. Please try again or email dev@splander.com.", false);
+      } finally {
+        submitBtn.disabled = false;
+      }
+    });
+  })();
+</script>

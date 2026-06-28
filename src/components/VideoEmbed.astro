@@ -1,0 +1,76 @@
+---
+/*
+ * Click-to-load video facade — renders only a poster + play button until the
+ * user clicks, so no video/iframe JS touches first paint (keeps LCP/TBT green).
+ * Pass `youtube` (id) once a demo is published, or `src` for a self-hosted mp4.
+ * With neither, shows a styled placeholder.
+ */
+interface Props {
+  youtube?: string;
+  src?: string;
+  poster?: string;
+  title?: string;
+  ratio?: string;
+}
+const { youtube, src, poster, title = "Splander Jobs demo", ratio = "16/9" } = Astro.props;
+const hasVideo = Boolean(youtube || src);
+---
+<div
+  class="group relative overflow-hidden rounded-2xl border border-slate-200 bg-slate-900 shadow-frame"
+  style={`aspect-ratio:${ratio}`}
+  data-video-facade
+  data-youtube={youtube}
+  data-src={src}
+  data-title={title}
+>
+  {poster && <img src={poster} alt="" loading="lazy" decoding="async" class="absolute inset-0 h-full w-full object-cover opacity-80" />}
+  {!poster && <div class="absolute inset-0 band-plum opacity-90"></div>}
+  <div class="absolute inset-0 grid place-items-center">
+    {
+      hasVideo ? (
+        <button type="button" class="grid h-16 w-16 place-items-center rounded-full bg-white/95 shadow-lg transition-transform group-hover:scale-105" aria-label={`Play ${title}`}>
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="#2F1B34" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+        </button>
+      ) : (
+        <div class="text-center text-white/80">
+          <div class="mx-auto mb-3 grid h-16 w-16 place-items-center rounded-full bg-white/15">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+          </div>
+          <p class="text-sm font-medium">Product walkthrough — coming soon</p>
+        </div>
+      )
+    }
+  </div>
+</div>
+
+{
+  hasVideo && (
+    <script is:inline>
+      document.querySelectorAll("[data-video-facade]").forEach((el) => {
+        const btn = el.querySelector("button");
+        if (!btn) return;
+        btn.addEventListener("click", () => {
+          const yt = el.getAttribute("data-youtube");
+          const src = el.getAttribute("data-src");
+          const title = el.getAttribute("data-title") || "";
+          let node;
+          if (yt) {
+            node = document.createElement("iframe");
+            node.src = "https://www.youtube-nocookie.com/embed/" + yt + "?autoplay=1";
+            node.title = title;
+            node.allow = "autoplay; encrypted-media; picture-in-picture";
+            node.setAttribute("allowfullscreen", "");
+          } else {
+            node = document.createElement("video");
+            node.src = src;
+            node.controls = true;
+            node.autoplay = true;
+            node.playsInline = true;
+          }
+          node.className = "absolute inset-0 h-full w-full";
+          el.replaceChildren(node);
+        });
+      });
+    </script>
+  )
+}

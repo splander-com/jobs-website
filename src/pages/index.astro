@@ -1,0 +1,231 @@
+---
+import Base from "../layouts/Base.astro";
+import Section from "../components/Section.astro";
+import CtaButton from "../components/CtaButton.astro";
+import ChromeGlyph from "../components/ChromeGlyph.astro";
+import JourneyCard from "../components/JourneyCard.astro";
+import FeatureCard from "../components/FeatureCard.astro";
+import ScreenshotFrame from "../components/ScreenshotFrame.astro";
+import VideoEmbed from "../components/VideoEmbed.astro";
+import PrivacyStrip from "../components/PrivacyStrip.astro";
+import StatusPill from "../components/StatusPill.astro";
+import Wordmark from "../components/Wordmark.astro";
+import { JOURNEYS } from "../data/journeys";
+import { SITE_URL, SITE_NAME, STORE_TITLE, TAGLINE, ONE_LINER, CHROME_STORE_URL } from "../consts";
+
+const blurbs: Record<string, string> = {
+  track: "A status badge on every listing and a private side-panel tracker for every application.",
+  score: "An instant CV-to-job match score, plus CV and LinkedIn profile optimization.",
+  automate: "Connect Gmail read-only and your status advances itself when recruiters reply.",
+  network: "A recruiter CRM, outreach drafts, and one-click autofill for application forms.",
+  land: "A daily target, a streak, and a funnel that keeps momentum to the offer.",
+};
+
+const softwareLd = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  name: STORE_TITLE,
+  applicationCategory: "BrowserApplication",
+  operatingSystem: "Chrome",
+  url: SITE_URL,
+  downloadUrl: CHROME_STORE_URL,
+  description:
+    "A free, private job-application tracker for LinkedIn, Indeed, Glassdoor and jobnet.co.il. Status badges, automatic Gmail status updates, CV-match scores and one-click autofill.",
+  offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+};
+const orgLd = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: "Splander",
+  url: "https://splander.com",
+  brand: SITE_NAME,
+};
+---
+
+<Base
+  title={`${SITE_NAME} — ${TAGLINE}`}
+  description="Stop maintaining a job-search spreadsheet. Splander Jobs tracks your applications across LinkedIn, Indeed, Glassdoor and jobnet — with status badges, automatic Gmail updates, CV-match scores and one-click autofill. Free, private, no signup."
+  path="/"
+  jsonLd={[softwareLd, orgLd]}
+>
+  <!-- HERO -->
+  <section class="band-plum text-white">
+    <div class="mx-auto grid max-w-6xl items-center gap-12 px-5 py-20 lg:grid-cols-2 lg:py-28">
+      <div>
+        <span class="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1 text-xs font-semibold text-emerald-200 ring-1 ring-white/15">
+          <span class="h-1.5 w-1.5 rounded-full bg-green"></span>
+          Free on the Chrome Web Store
+        </span>
+        <h1 class="mt-5 font-display text-4xl font-extrabold leading-[1.05] tracking-tight sm:text-5xl lg:text-6xl">
+          Your job hunt,<br /><span class="text-lime">tracked automatically.</span>
+        </h1>
+        <p class="mt-5 max-w-lg text-lg leading-relaxed text-slate-300">
+          {ONE_LINER}
+        </p>
+        <div class="mt-8 flex flex-wrap items-center gap-3">
+          <CtaButton size="lg">
+            <ChromeGlyph slot="icon" size={20} />
+            Add to Chrome — it's free
+          </CtaButton>
+          <CtaButton href="#how" variant="ghost-light" size="lg" external={false}>
+            See how it works
+          </CtaButton>
+        </div>
+        <p class="mt-4 text-sm text-slate-400">No account · no signup · runs in your browser</p>
+      </div>
+
+      <div class="relative">
+        <ScreenshotFrame label="Status pills on a live job card" ratio="16/11">
+          <div class="absolute inset-0 bg-gradient-to-br from-slate-50 to-slate-100 p-5">
+            <div class="flex h-full flex-col gap-3">
+              <div class="flex items-start justify-between rounded-lg bg-white p-3 shadow-sm ring-1 ring-slate-100">
+                <div>
+                  <div class="h-2.5 w-28 rounded bg-slate-200"></div>
+                  <div class="mt-2 h-2 w-20 rounded bg-slate-100"></div>
+                </div>
+                <StatusPill label="Sent CV" tone="info" />
+              </div>
+              <div class="flex items-start justify-between rounded-lg bg-white p-3 shadow-sm ring-1 ring-slate-100">
+                <div>
+                  <div class="h-2.5 w-32 rounded bg-slate-200"></div>
+                  <div class="mt-2 h-2 w-16 rounded bg-slate-100"></div>
+                </div>
+                <StatusPill label="Interview" tone="info" />
+              </div>
+              <div class="flex items-start justify-between rounded-lg bg-white p-3 shadow-sm ring-1 ring-slate-100">
+                <div>
+                  <div class="h-2.5 w-24 rounded bg-slate-200"></div>
+                  <div class="mt-2 h-2 w-24 rounded bg-slate-100"></div>
+                </div>
+                <StatusPill label="Offer" tone="success" glyph="spark" />
+              </div>
+              <div class="mt-auto flex items-center justify-between rounded-lg bg-brand p-3 text-white">
+                <span class="text-xs font-medium text-slate-300">Today's goal</span>
+                <span class="tnum text-sm font-bold text-lime">7 / 10 · 🔥 12</span>
+              </div>
+            </div>
+          </div>
+        </ScreenshotFrame>
+      </div>
+    </div>
+  </section>
+
+  <!-- THREE PRIORITY MESSAGES -->
+  <Section tone="cream">
+    <div class="mx-auto max-w-2xl text-center">
+      <h2 class="font-display text-3xl font-extrabold text-slate-900 sm:text-4xl">
+        Three reasons it sticks
+      </h2>
+      <p class="mt-3 text-slate-600">
+        Built to save you time and keep you moving — without asking for your data.
+      </p>
+    </div>
+    <div class="mt-12 grid gap-6 md:grid-cols-3">
+      <FeatureCard title="Updates from your inbox" accent="green">
+        <svg slot="icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 6 10-6"/></svg>
+        Connect Gmail (read-only, opt-in) and a recruiter's reply advances the matching application on its own. No spreadsheet edits.
+      </FeatureCard>
+      <FeatureCard title="Private & zero-friction" accent="primary">
+        <svg slot="icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"/></svg>
+        No account, no signup, no servers. Everything stays in your browser — start tracking the second you install.
+      </FeatureCard>
+      <FeatureCard title="Badges, funnel & streak" accent="coral">
+        <svg slot="icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v18h18"/><rect x="7" y="12" width="3" height="6"/><rect x="12" y="8" width="3" height="10"/><rect x="17" y="5" width="3" height="13"/></svg>
+        A status pill on every listing, a five-stage funnel, and a daily streak that keeps your momentum visible.
+      </FeatureCard>
+    </div>
+  </Section>
+
+  <!-- JOURNEY ARC -->
+  <Section tone="white">
+    <div class="max-w-2xl">
+      <span class="text-xs font-bold uppercase tracking-wider text-green">The arc of a job hunt</span>
+      <h2 class="mt-2 font-display text-3xl font-extrabold text-slate-900 sm:text-4xl">
+        Five stages, one tool
+      </h2>
+      <p class="mt-3 text-slate-600">
+        Splander Jobs covers the whole journey — from the first listing you spot to the offer you sign.
+      </p>
+    </div>
+    <div class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
+      {
+        JOURNEYS.map((j, i) => (
+          <JourneyCard
+            index={i}
+            slug={j.slug}
+            eyebrow={j.eyebrow}
+            title={j.title}
+            blurb={blurbs[j.slug]}
+          />
+        ))
+      }
+    </div>
+  </Section>
+
+  <!-- HOW IT WORKS -->
+  <Section id="how" tone="slate">
+    <div class="grid items-center gap-12 lg:grid-cols-2">
+      <div>
+        <span class="text-xs font-bold uppercase tracking-wider text-green">How it works</span>
+        <h2 class="mt-2 font-display text-3xl font-extrabold text-slate-900 sm:text-4xl">
+          Up and running in under a minute
+        </h2>
+        <ol class="mt-8 space-y-6">
+          <li class="flex gap-4">
+            <span class="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-green/10 font-display font-bold text-green">1</span>
+            <div>
+              <h3 class="font-semibold text-slate-900">Install &amp; open the side panel</h3>
+              <p class="mt-1 text-sm text-slate-600">Add Splander Jobs from the Chrome Web Store — nothing to sign up for.</p>
+            </div>
+          </li>
+          <li class="flex gap-4">
+            <span class="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-green/10 font-display font-bold text-green">2</span>
+            <div>
+              <h3 class="font-semibold text-slate-900">Browse jobs as normal</h3>
+              <p class="mt-1 text-sm text-slate-600">A status pill appears on every listing. Click to save the ones you apply to.</p>
+            </div>
+          </li>
+          <li class="flex gap-4">
+            <span class="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-green/10 font-display font-bold text-green">3</span>
+            <div>
+              <h3 class="font-semibold text-slate-900">Let your status update itself</h3>
+              <p class="mt-1 text-sm text-slate-600">Connect Gmail and recruiter replies move each application forward — or mark progress yourself anytime.</p>
+            </div>
+          </li>
+        </ol>
+        <CtaButton size="lg" class="mt-8">
+          <ChromeGlyph slot="icon" size={20} />
+          Add to Chrome
+        </CtaButton>
+      </div>
+      <VideoEmbed title="Splander Jobs — 60-second walkthrough" />
+    </div>
+  </Section>
+
+  <!-- PRIVACY -->
+  <Section tone="white">
+    <PrivacyStrip />
+  </Section>
+
+  <!-- FINAL CTA -->
+  <section class="band-plum text-white">
+    <div class="mx-auto max-w-3xl px-5 py-20 text-center">
+      <div class="mx-auto mb-6 w-fit"><Wordmark size={30} tone="light" /></div>
+      <h2 class="font-display text-3xl font-extrabold sm:text-4xl">
+        Stop maintaining a spreadsheet.
+      </h2>
+      <p class="mx-auto mt-4 max-w-xl text-lg text-slate-300">
+        Let your job hunt track itself — privately, for free.
+      </p>
+      <div class="mt-8 flex flex-wrap justify-center gap-3">
+        <CtaButton size="lg">
+          <ChromeGlyph slot="icon" size={20} />
+          Add to Chrome — it's free
+        </CtaButton>
+        <CtaButton href="/feedback" variant="ghost-light" size="lg" external={false}>
+          Share feedback
+        </CtaButton>
+      </div>
+    </div>
+  </section>
+</Base>

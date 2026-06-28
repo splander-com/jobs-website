@@ -1,0 +1,21 @@
+---
+interface Props {
+  id?: string;
+  tone?: "cream" | "white" | "plum" | "slate";
+  class?: string;
+  width?: "default" | "wide";
+}
+const { id, tone = "cream", class: cls = "", width = "default" } = Astro.props;
+const tones = {
+  cream: "bg-cream text-slate-800",
+  white: "bg-white text-slate-800",
+  plum: "band-plum text-slate-200",
+  slate: "bg-slate-50 text-slate-800",
+};
+const max = width === "wide" ? "max-w-7xl" : "max-w-6xl";
+---
+<section id={id} class={`${tones[tone]} ${cls}`}>
+  <div class={`mx-auto ${max} px-5 py-16 sm:py-20`}>
+    <slot />
+  </div>
+</section>

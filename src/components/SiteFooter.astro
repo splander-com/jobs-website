@@ -1,0 +1,55 @@
+---
+import Wordmark from "./Wordmark.astro";
+import { JOURNEY, SUPPORT_EMAIL, SPLANDER_HOME, CHROME_STORE_URL } from "../consts";
+---
+
+<footer class="band-plum text-slate-300">
+  <div class="mx-auto grid max-w-6xl gap-10 px-5 py-14 sm:grid-cols-2 lg:grid-cols-4">
+    <div class="lg:col-span-1">
+      <Wordmark size={26} tone="light" />
+      <p class="mt-4 max-w-xs text-sm leading-relaxed text-slate-400">
+        The free, private job-application tracker. Runs entirely in your browser —
+        no account, no signup.
+      </p>
+    </div>
+
+    <div>
+      <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400">The journey</h3>
+      <ul class="mt-4 space-y-2 text-sm">
+        {
+          JOURNEY.map((j) => (
+            <li><a href={`/${j.slug}`} class="transition-colors hover:text-white">{j.nav} — {j.eyebrow}</a></li>
+          ))
+        }
+      </ul>
+    </div>
+
+    <div>
+      <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400">Product</h3>
+      <ul class="mt-4 space-y-2 text-sm">
+        <li><a href={CHROME_STORE_URL} target="_blank" rel="noopener" class="transition-colors hover:text-white">Add to Chrome</a></li>
+        <li><a href="/premium" class="transition-colors hover:text-white">Premium</a></li>
+        <li><a href="/feedback" class="transition-colors hover:text-white">Feedback</a></li>
+        <li><a href="/privacy" class="transition-colors hover:text-white">Privacy</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400">Splander</h3>
+      <ul class="mt-4 space-y-2 text-sm">
+        <li><a href={SPLANDER_HOME} target="_blank" rel="noopener" class="transition-colors hover:text-white">splander.com</a></li>
+        <li><a href={`mailto:${SUPPORT_EMAIL}`} class="transition-colors hover:text-white">{SUPPORT_EMAIL}</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="border-t border-white/10">
+    <div class="mx-auto flex max-w-6xl flex-col gap-2 px-5 py-6 text-xs text-slate-400 sm:flex-row sm:items-center sm:justify-between">
+      <p>© {new Date().getFullYear()} Splander. Part of the Splander family.</p>
+      <p class="max-w-xl text-slate-500">
+        Independent tool — not affiliated with, endorsed by, or sponsored by LinkedIn,
+        Indeed, Glassdoor, or Google. All trademarks belong to their respective owners.
+      </p>
+    </div>
+  </div>
+</footer>
