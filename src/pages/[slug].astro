@@ -116,7 +116,7 @@ const breadcrumbLd = {
       {
         prev ? (
           <a href={withBase(prev.slug)} class="group rounded-2xl border border-slate-100 bg-white p-6 shadow-sm transition-all hover:-translate-y-1 hover:shadow-frame">
-            <span class="text-xs font-bold uppercase tracking-wider text-slate-400">← Previous · Step {prev.step}</span>
+            <span class="text-xs font-bold uppercase tracking-wider text-slate-500">← Previous · Step {prev.step}</span>
             <h3 class="mt-2 font-display text-lg font-bold text-slate-900">{prev.title}</h3>
           </a>
         ) : <div class="hidden sm:block" />
@@ -124,7 +124,7 @@ const breadcrumbLd = {
       {
         next && (
           <a href={withBase(next.slug)} class="group rounded-2xl border border-slate-100 bg-white p-6 text-right shadow-sm transition-all hover:-translate-y-1 hover:shadow-frame sm:col-start-2">
-            <span class="text-xs font-bold uppercase tracking-wider text-green">Next · Step {next.step} →</span>
+            <span class="text-xs font-bold uppercase tracking-wider text-emerald-700">Next · Step {next.step} →</span>
             <h3 class="mt-2 font-display text-lg font-bold text-slate-900">{next.title}</h3>
           </a>
         )

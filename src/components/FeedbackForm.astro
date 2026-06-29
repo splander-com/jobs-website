@@ -54,7 +54,7 @@ const endpoint = SUPABASE_URL ? `${SUPABASE_URL}/functions/v1/submit-feedback` :
 
     <div class="flex items-center gap-4">
       <button type="submit" id="fb-submit"
-        class="inline-flex items-center justify-center gap-2 rounded-xl bg-green px-6 py-3 text-sm font-semibold text-white shadow-cta transition-transform hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-60">
+        class="inline-flex items-center justify-center gap-2 rounded-xl bg-emerald-700 px-6 py-3 text-sm font-semibold text-white shadow-cta transition-transform hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-60">
         Send feedback
       </button>
       <p id="fb-status" class="text-sm" role="status" aria-live="polite"></p>
@@ -91,7 +91,7 @@ const endpoint = SUPABASE_URL ? `${SUPABASE_URL}/functions/v1/submit-feedback` :
 
     function setStatus(msg, ok) {
       statusEl.textContent = msg;
-      statusEl.className = "text-sm " + (ok ? "text-green" : "text-error");
+      statusEl.className = "text-sm " + (ok ? "text-emerald-700" : "text-red-700");
     }
 
     // Stable per-visitor id (the function requires a UUID install_id).

@@ -103,7 +103,8 @@ body {
   margin-bottom: 0.4rem;
 }
 .prose-sj a {
-  color: var(--color-green);
+  /* emerald-700 — AA contrast for body links on white (brand #10B981 fails). */
+  color: #047857;
   font-weight: 600;
 }
 .prose-sj a:hover {
