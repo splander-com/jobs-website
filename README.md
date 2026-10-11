@@ -46,6 +46,22 @@ PUBLIC_SUPABASE_ANON_KEY=<anon key>
 Set them in `website/.env` for local dev and in the Vercel project for production.
 See `.env.example`.
 
+## Privacy policy
+
+`/privacy` renders `src/content/privacy.md`, a verbatim copy of `PRIVACY.md` at the
+root of the private repo **splander-com/jobs** (the policy the Chrome Web Store
+listing relies on). That file is the single source of truth.
+
+**Whenever `PRIVACY.md` changes in splander-com/jobs, refresh the copy here:**
+
+```bash
+cp ../jobs/PRIVACY.md src/content/privacy.md
+```
+
+The build fails if the `_Last updated: YYYY-MM-DD_` line is missing. Only the short
+"This website" section (cookies, the feedback form) lives in `src/pages/privacy.astro`;
+keep it in step with what `src/components/FeedbackForm.astro` sends.
+
 ## Deploy (Vercel)
 
 1. New Vercel project, **Root Directory = `website`**, framework preset **Astro**.
