@@ -1,0 +1,21 @@
+---
+/* The brand kit's horizontal lockup (plane + wordmark + slogan), as-is. */
+import { withBase } from "../consts";
+
+interface Props {
+  width?: number;
+  /** "black" for the chrome band, "transparent" for light surfaces. */
+  variant?: "black" | "transparent";
+  class?: string;
+}
+const { width = 240, variant = "transparent", class: cls = "" } = Astro.props;
+const file = variant === "black" ? "lockup-horizontal-on-black" : "lockup-horizontal-transparent";
+---
+
+<img
+  src={withBase(`/brand/logo/${file}.svg`)}
+  width={width}
+  height={Math.round(width / 3)}
+  alt="Splander Jobs. Your job search co-pilot."
+  class={`block ${cls}`}
+/>

@@ -1,0 +1,25 @@
+---
+/*
+ * The mascot. Plain (no halo) on light surfaces; the white-halo sticker on
+ * chrome or busy backgrounds. Brand-kit art, as-is.
+ */
+import { withBase } from "../consts";
+
+interface Props {
+  on?: "light" | "dark";
+  width?: number;
+  class?: string;
+}
+const { on = "light", width = 240, class: cls = "" } = Astro.props;
+const [file, vw, vh] =
+  on === "dark" ? ["/brand/mascot/mascot-sticker-on-black.svg", 300, 220] : ["/brand/illustrations/mascot.svg", 240, 180];
+---
+
+<img
+  src={withBase(file)}
+  width={width}
+  height={Math.round((width * vh) / vw)}
+  alt=""
+  aria-hidden="true"
+  class={`block ${cls}`}
+/>

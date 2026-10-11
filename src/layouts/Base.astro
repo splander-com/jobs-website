@@ -22,9 +22,11 @@ const { title, description, path, ogImage, jsonLd, noindex } = Astro.props;
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" href={withBase("/favicon.ico")} sizes="48x48" />
     <link rel="icon" type="image/svg+xml" href={withBase("/favicon.svg")} />
-    <link rel="apple-touch-icon" href={withBase("/icon-180.png")} />
-    <meta name="theme-color" content="#2F1B34" />
+    <link rel="apple-touch-icon" href={withBase("/apple-touch-icon.png")} />
+    <link rel="manifest" href={withBase("/site.webmanifest")} />
+    <meta name="theme-color" content="#141414" />
     <meta name="generator" content={Astro.generator} />
     <Seo
       title={title}
@@ -35,10 +37,10 @@ const { title, description, path, ogImage, jsonLd, noindex } = Astro.props;
       noindex={noindex}
     />
   </head>
-  <body class="min-h-screen bg-cream text-slate-800">
+  <body class="min-h-screen bg-page text-zinc-800">
     <a
       href="#main"
-      class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[100] focus:rounded-lg focus:bg-white focus:px-4 focus:py-2 focus:shadow"
+      class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[100] focus:rounded-lg focus:bg-white focus:px-4 focus:py-2 focus:text-ink focus:ring-2 focus:ring-coral-deep"
       >Skip to content</a
     >
     <SiteHeader />
