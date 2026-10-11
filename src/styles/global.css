@@ -7,39 +7,75 @@
 @import "@fontsource/sora/800.css";
 
 /*
- * Splander Jobs design tokens — mirrored verbatim from
- * extension/tailwind.config.ts + marketing.md §4. Code wins on any conflict.
+ * Splander Jobs design tokens — mirrored from splander-com/jobs
+ * extension/DESIGN-SYSTEM.md §2/§4/§5/§6 + tailwind.config.ts. Code wins on any
+ * conflict. Use the token names in markup, never raw hexes.
+ *
+ * Contrast rules (WCAG AA):
+ * - action (coral) is a FILL; its label is always ink (5.9:1), never white (2.6:1).
+ * - signal (spark) is a fill behind ink only — never text (1.4:1 on white), and
+ *   never a status colour.
+ * - coral-deep is coral TEXT / links / eyebrows on light (5.4:1 on white).
+ * The site is light-only; if dark mode is added, coral-deep flips to #FF7A59.
  */
 @theme {
-  --color-primary: #1985f0;
-  --color-primary-dark: #1570cc;
+  --color-action: #ff7a59;
+  --color-signal: #ffd84d;
+  --color-coral-deep: #b8452a;
+  --color-chrome: #141414;
+  --color-ink: #3a1f17;
+  --color-paper: #fff4ef;
+  --color-wing: #ffd9cb;
+  --color-fold: #ffb49e;
+  --color-coral: #ff7a59;
+  --color-cream: #fff4ef;
+  /* Neutral page behind white cards (zinc theme). */
+  --color-page: #f6f4f5;
 
-  /* Plum brand chrome — constant across themes. */
-  --color-brand: #2f1b34;
-  --color-brand-deep: #1f1322;
-
-  /* Rebrand mark / accent palette (see extension/lib/brand-mark.ts). */
-  --color-green: #10b981;
-  --color-lime: #84cc16;
-  --color-coral: #fb7c5e;
-  --color-cream: #fff8ee;
-  --color-accent-dark: #34d399;
-
-  /* Semantic tones — match STATUS_COLORS in the extension. */
+  /* Semantic tones. */
   --color-success: #16a34a;
   --color-warning: #d97706;
   --color-info: #1985f0;
   --color-error: #dc2626;
 
+  /* Status tones (STATUS_TONES in extension/lib/types.ts): solid / tint bg /
+     tint text. Meaning colours, not brand colours. */
+  --color-status-sent: #2563eb;
+  --color-status-sent-bg: #dbeafe;
+  --color-status-sent-fg: #1e40af;
+  --color-status-received: #0f766e;
+  --color-status-received-bg: #ccfbf1;
+  --color-status-received-fg: #115e59;
+  --color-status-interview: #7c3aed;
+  --color-status-interview-bg: #ede9fe;
+  --color-status-interview-fg: #5b21b6;
+  --color-status-offer: #15803d;
+  --color-status-offer-bg: #dcfce7;
+  --color-status-offer-fg: #166534;
+  --color-status-hold: #b45309;
+  --color-status-hold-bg: #fef3c7;
+  --color-status-hold-fg: #92400e;
+  --color-status-rejected: #be123c;
+  --color-status-rejected-bg: #ffe4e6;
+  --color-status-rejected-fg: #9f1239;
+  --color-status-neutral: #64748b;
+  --color-status-neutral-bg: #e2e8f0;
+  --color-status-neutral-fg: #334155;
+
   --font-sans: "Inter Variable", Inter, system-ui, sans-serif;
   --font-display: "Sora", "Inter Variable", system-ui, sans-serif;
 
-  --shadow-primary-sm: 0 4px 12px rgba(25, 133, 240, 0.2);
-  --shadow-primary: 0 8px 18px rgba(25, 133, 240, 0.3);
-  /* Green-tinted CTA glow (Add to Chrome). */
-  --shadow-cta: 0 12px 30px rgba(16, 185, 129, 0.35);
-  --shadow-frame: 0 24px 60px rgba(15, 12, 30, 0.18),
-    0 4px 12px rgba(15, 12, 30, 0.06);
+  /* Radius scale (§6): chips 6, inputs + small cards 8, section cards 12,
+     tiles 14, frame 16; pills use rounded-full. */
+  --radius-chip: 6px;
+  --radius-control: 8px;
+  --radius-card: 12px;
+  --radius-tile: 14px;
+  --radius-frame: 16px;
+
+  /* The ONE custom shadow: the screenshot / marketing frame. Cards carry no
+     shadow — elevation is a 1px zinc border. */
+  --shadow-frame: 0 24px 60px rgba(15, 12, 30, 0.18), 0 4px 12px rgba(15, 12, 30, 0.06);
 }
 
 html {
@@ -49,37 +85,52 @@ html {
 
 body {
   font-family: var(--font-sans);
-  color: var(--color-slate-800);
-  background: var(--color-cream);
+  color: var(--color-zinc-800);
+  background: var(--color-page);
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
 
+/* Sora display: section headings + heroes (weight set per use: 600/700/800). */
 .font-display {
   font-family: var(--font-display);
   letter-spacing: -0.02em;
 }
 
-/* Plum hero band — constant across themes. */
-.band-plum {
-  background: linear-gradient(150deg, var(--color-brand), var(--color-brand-deep));
+/* Hero display: Sora 800, 54–64px, line-height 1.04, tracking −1.6px. */
+.text-hero {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(3.375rem, 2.9rem + 1.6vw, 4rem);
+  line-height: 1.04;
+  letter-spacing: -1.6px;
 }
 
-/* Numeric stats. */
+/* Eyebrow: Inter 700, 11px, uppercase, tracking 0.5px. */
+.eyebrow {
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-size: 11px;
+  line-height: 1.4;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+/* Numeric stats: Inter 900 with tabular figures. */
 .tnum {
   font-variant-numeric: tabular-nums;
 }
 
 /* Lightweight prose styling for the privacy policy (no plugin needed). */
 .prose-sj {
-  color: var(--color-slate-700);
+  color: var(--color-zinc-700);
   line-height: 1.7;
 }
 .prose-sj h2 {
   font-family: var(--font-display);
   font-weight: 800;
   font-size: 1.5rem;
-  color: var(--color-slate-900);
+  color: var(--color-zinc-900);
   margin-top: 2.5rem;
   margin-bottom: 0.75rem;
   letter-spacing: -0.01em;
@@ -87,7 +138,7 @@ body {
 .prose-sj h3 {
   font-weight: 700;
   font-size: 1.125rem;
-  color: var(--color-slate-900);
+  color: var(--color-zinc-900);
   margin-top: 1.75rem;
   margin-bottom: 0.5rem;
 }
@@ -103,22 +154,24 @@ body {
   margin-bottom: 0.4rem;
 }
 .prose-sj a {
-  /* emerald-700 — AA contrast for body links on white (brand #10B981 fails). */
-  color: #047857;
+  /* coral-deep — AA for body links on white and on the page (5.4:1 / 4.9:1). */
+  color: var(--color-coral-deep);
+  text-decoration: underline;
+  text-underline-offset: 2px;
   font-weight: 600;
 }
 .prose-sj a:hover {
-  text-decoration: underline;
+  text-decoration-thickness: 2px;
 }
 .prose-sj code {
-  background: var(--color-slate-100);
+  background: var(--color-zinc-100);
   border-radius: 4px;
   padding: 0.1rem 0.35rem;
   font-size: 0.85em;
   overflow-wrap: anywhere;
 }
 .prose-sj strong {
-  color: var(--color-slate-900);
+  color: var(--color-zinc-900);
 }
 
 @media (prefers-reduced-motion: reduce) {
