@@ -12,18 +12,18 @@ const endpoint = SUPABASE_URL ? `${SUPABASE_URL}/functions/v1/submit-feedback` :
 
 <form
   id="feedback-form"
-  class="rounded-2xl border border-slate-100 bg-white p-6 shadow-sm sm:p-8"
+  class="rounded-card border border-zinc-200 bg-white p-6 sm:p-8"
   data-endpoint={endpoint}
   data-anon={SUPABASE_ANON}
   novalidate
 >
   <div class="grid gap-5">
     <div>
-      <label for="fb-rating" class="block text-sm font-semibold text-slate-900">How's your experience?</label>
+      <label for="fb-rating" class="block text-sm font-semibold text-zinc-900">How's your experience?</label>
       <div id="fb-rating" class="mt-2 flex gap-2" role="radiogroup" aria-label="Rating">
         {
           [1, 2, 3, 4, 5].map((n) => (
-            <button type="button" class="fb-star grid h-10 w-10 place-items-center rounded-lg border border-slate-200 text-slate-300 transition-colors hover:border-amber-300 hover:text-amber-400" data-value={n} aria-label={`${n} star${n > 1 ? "s" : ""}`} aria-pressed="false">
+            <button type="button" class="fb-star grid h-10 w-10 place-items-center rounded-control border border-zinc-300 text-zinc-500 transition-colors hover:border-warning hover:text-warning" data-value={n} aria-label={`${n} star${n > 1 ? "s" : ""}`} aria-pressed="false">
               <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M10 1l2.6 5.3 5.9.9-4.3 4.1 1 5.8L10 14.9 4.8 17.2l1-5.8L1.5 7.2l5.9-.9L10 1z"/></svg>
             </button>
           ))
@@ -33,16 +33,16 @@ const endpoint = SUPABASE_URL ? `${SUPABASE_URL}/functions/v1/submit-feedback` :
     </div>
 
     <div>
-      <label for="fb-message" class="block text-sm font-semibold text-slate-900">What's on your mind? <span class="text-error">*</span></label>
+      <label for="fb-message" class="block text-sm font-semibold text-zinc-900">What's on your mind? <span class="text-error">*</span></label>
       <textarea id="fb-message" name="message" rows="5" maxlength="4000" required
-        class="mt-2 w-full rounded-xl border border-slate-200 px-4 py-3 text-sm outline-none focus:border-green focus:ring-2 focus:ring-green/20"
+        class="mt-2 w-full rounded-control border border-zinc-300 px-4 py-3 text-sm outline-none focus:border-coral-deep focus:ring-2 focus:ring-action/30"
         placeholder="Tell us what's working, what's missing, or what broke…"></textarea>
     </div>
 
     <div>
-      <label for="fb-email" class="block text-sm font-semibold text-slate-900">Email <span class="font-normal text-slate-400">(optional — to hear back &amp; get product updates)</span></label>
+      <label for="fb-email" class="block text-sm font-semibold text-zinc-900">Email <span class="font-normal text-zinc-600">(optional — to hear back &amp; get product updates)</span></label>
       <input id="fb-email" name="email" type="email" maxlength="200"
-        class="mt-2 w-full rounded-xl border border-slate-200 px-4 py-3 text-sm outline-none focus:border-green focus:ring-2 focus:ring-green/20"
+        class="mt-2 w-full rounded-control border border-zinc-300 px-4 py-3 text-sm outline-none focus:border-coral-deep focus:ring-2 focus:ring-action/30"
         placeholder="you@example.com" />
     </div>
 
@@ -54,13 +54,13 @@ const endpoint = SUPABASE_URL ? `${SUPABASE_URL}/functions/v1/submit-feedback` :
 
     <div class="flex items-center gap-4">
       <button type="submit" id="fb-submit"
-        class="inline-flex items-center justify-center gap-2 rounded-xl bg-emerald-700 px-6 py-3 text-sm font-semibold text-white shadow-cta transition-transform hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-60">
+        class="inline-flex items-center justify-center gap-2 rounded-control bg-action px-6 py-3 text-sm font-semibold text-ink transition-colors hover:bg-fold focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-coral-deep disabled:cursor-not-allowed disabled:opacity-60">
         Send feedback
       </button>
       <p id="fb-status" class="text-sm" role="status" aria-live="polite"></p>
     </div>
 
-    <p class="text-xs leading-relaxed text-slate-400">
+    <p class="text-xs leading-relaxed text-zinc-600">
       We receive only what you type, an optional rating and your browser's language.
       No tracking, and we never sell your data.
     </p>
@@ -81,9 +81,10 @@ const endpoint = SUPABASE_URL ? `${SUPABASE_URL}/functions/v1/submit-feedback` :
         ratingValue.value = String(v);
         document.querySelectorAll(".fb-star").forEach(function (s) {
           const on = Number(s.getAttribute("data-value")) <= v;
-          s.classList.toggle("text-amber-400", on);
-          s.classList.toggle("border-amber-300", on);
-          s.classList.toggle("text-slate-300", !on);
+          s.classList.toggle("text-warning", on);
+          s.classList.toggle("border-warning", on);
+          s.classList.toggle("text-zinc-500", !on);
+          s.classList.toggle("border-zinc-300", !on);
           s.setAttribute("aria-pressed", on ? "true" : "false");
         });
       });
@@ -91,7 +92,7 @@ const endpoint = SUPABASE_URL ? `${SUPABASE_URL}/functions/v1/submit-feedback` :
 
     function setStatus(msg, ok) {
       statusEl.textContent = msg;
-      statusEl.className = "text-sm " + (ok ? "text-emerald-700" : "text-red-700");
+      statusEl.className = "text-sm " + (ok ? "text-green-800" : "text-red-700");
     }
 
     // Stable per-visitor id (the function requires a UUID install_id).
@@ -157,7 +158,7 @@ const endpoint = SUPABASE_URL ? `${SUPABASE_URL}/functions/v1/submit-feedback` :
         if (!res.ok) throw new Error("bad status " + res.status);
         form.reset();
         document.querySelectorAll(".fb-star").forEach(function (s) {
-          s.className = "fb-star grid h-10 w-10 place-items-center rounded-lg border border-slate-200 text-slate-300 transition-colors hover:border-amber-300 hover:text-amber-400";
+          s.className = "fb-star grid h-10 w-10 place-items-center rounded-control border border-zinc-300 text-zinc-500 transition-colors hover:border-warning hover:text-warning";
           s.setAttribute("aria-pressed", "false");
         });
         ratingValue.value = "";

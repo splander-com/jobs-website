@@ -1,21 +1,28 @@
 ---
+/* Section card: white, 1px zinc border, 12px radius, no shadow. */
+import { withBase } from "../consts";
+
 interface Props {
   title: string;
-  accent?: "green" | "primary" | "coral" | "lime";
+  href?: string;
   class?: string;
 }
-const { title, accent = "green", class: cls = "" } = Astro.props;
-const dot = {
-  green: "bg-green/10 text-green",
-  primary: "bg-[#1985f0]/10 text-[#1985f0]",
-  coral: "bg-coral/15 text-coral",
-  lime: "bg-lime/15 text-[#5a8a0a]",
-};
+const { title, href, class: cls = "" } = Astro.props;
+const hasIcon = Astro.slots.has("icon");
 ---
-<div class={`rounded-xl border border-slate-100 bg-white p-6 shadow-sm transition-shadow hover:shadow-md ${cls}`}>
-  <div class={`mb-4 grid h-11 w-11 place-items-center rounded-xl ${dot[accent]}`}>
-    <slot name="icon" />
-  </div>
-  <h3 class="font-display text-lg font-bold text-slate-900">{title}</h3>
-  <p class="mt-2 text-sm leading-relaxed text-slate-600"><slot /></p>
+
+<div class={`flex flex-col rounded-card border border-zinc-200 bg-white p-6 ${cls}`}>
+  {hasIcon && (
+    <div class="mb-4 grid h-10 w-10 place-items-center rounded-control bg-paper text-coral-deep">
+      <slot name="icon" />
+    </div>
+  )}
+  <h3 class="font-display text-lg font-bold text-zinc-900">{title}</h3>
+  <p class="mt-2 flex-1 text-sm leading-relaxed text-zinc-600"><slot /></p>
+  {href && (
+    <a href={withBase(href)} class="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-coral-deep hover:underline">
+      Learn more<span class="sr-only"> about {title.toLowerCase()}</span>
+      <svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M7.3 4.3a1 1 0 0 1 1.4 0l5 5a1 1 0 0 1 0 1.4l-5 5a1 1 0 1 1-1.4-1.4L11.6 10 7.3 5.7a1 1 0 0 1 0-1.4Z" clip-rule="evenodd"/></svg>
+    </a>
+  )}
 </div>

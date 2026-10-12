@@ -19,9 +19,16 @@ export function withBase(path = "/"): string {
 
 export const SITE_NAME = "Splander Jobs";
 export const STORE_TITLE = "Splander Jobs – Job Application Tracker";
-export const TAGLINE = "Your job hunt, tracked automatically.";
+// Slogan — same as the extension (Brand.tsx SLOGAN, onboarding title).
+export const TAGLINE = "Your job search co-pilot.";
+// Short pitch — same as manifest.description / the store short description.
 export const ONE_LINER =
-  "Stop maintaining a job-search spreadsheet. Splander Jobs tracks it for you — automatically.";
+  "Your job search co-pilot. Track every application, autofill forms, get status updates from your inbox, and send more CVs.";
+
+// The job sites the extension works on. Claims rule: list all of them or none,
+// never a single board.
+export const JOB_SITES = ["LinkedIn", "Indeed", "Glassdoor", "AllJobs", "JobNet", "JobFox", "Jobify"] as const;
+export const JOB_SITES_TEXT = "LinkedIn, Indeed, Glassdoor, AllJobs, JobNet, JobFox and Jobify";
 
 // Live Chrome Web Store listing.
 export const EXTENSION_ID = "fdmdefbjbhhjghmlgmkfmbmbpaiecfel";
@@ -30,38 +37,14 @@ export const CHROME_STORE_URL = `https://chromewebstore.google.com/detail/spland
 export const SUPPORT_EMAIL = "dev@splander.com";
 export const SPLANDER_HOME = "https://splander.com";
 
-// The 5-stage job-journey arc. Order is the narrative spine of the whole site.
+// The five feature pages. Slugs (and so URLs) are kept for SEO; /land is
+// labelled "Goals" (no flying metaphors in copy).
 export const JOURNEY = [
-  {
-    slug: "track",
-    eyebrow: "Discover & Track",
-    nav: "Track",
-    title: "Every application, tracked across every board",
-  },
-  {
-    slug: "score",
-    eyebrow: "Score & Optimize",
-    nav: "Score",
-    title: "Know if your CV fits — before you apply",
-  },
-  {
-    slug: "automate",
-    eyebrow: "Automate",
-    nav: "Automate",
-    title: "Your status updates itself, straight from your inbox",
-  },
-  {
-    slug: "network",
-    eyebrow: "Network & Reach out",
-    nav: "Network",
-    title: "Every recruiter, organized — and reached",
-  },
-  {
-    slug: "land",
-    eyebrow: "Stay on pace & land it",
-    nav: "Land",
-    title: "Keep momentum until the offer lands",
-  },
+  { slug: "track", eyebrow: "Track", nav: "Track", title: "Every application, in one place" },
+  { slug: "score", eyebrow: "Score", nav: "Score", title: "See how your CV fits, before you apply" },
+  { slug: "automate", eyebrow: "Automate", nav: "Automate", title: "Fill the form once. Let your inbox update your tracker." },
+  { slug: "network", eyebrow: "Network", nav: "Network", title: "Keep every recruiter in one place" },
+  { slug: "land", eyebrow: "Goals", nav: "Goals", title: "Keep sending CVs, every day" },
 ] as const;
 
 export type JourneySlug = (typeof JOURNEY)[number]["slug"];

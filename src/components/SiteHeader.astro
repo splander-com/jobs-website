@@ -5,22 +5,22 @@ import ChromeGlyph from "./ChromeGlyph.astro";
 import { JOURNEY, withBase } from "../consts";
 ---
 
-<header class="sticky top-0 z-50 border-b border-slate-100 bg-cream/85 backdrop-blur">
-  <nav class="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-3 sm:gap-4 sm:px-5">
-    <a href={withBase("/")} class="shrink-0" aria-label="Splander Jobs home">
-      <Wordmark size={26} />
+<header class="sticky top-0 z-50 border-b border-zinc-200 bg-white/90 backdrop-blur">
+  <nav class="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-3 sm:gap-4 sm:px-5" aria-label="Main">
+    <a href={withBase("/")} class="shrink-0 rounded-control focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-coral-deep">
+      <Wordmark height={20} />
     </a>
 
-    <div class="hidden items-center gap-6 text-sm font-medium text-slate-600 lg:flex">
+    <div class="hidden items-center gap-6 text-sm font-medium text-zinc-600 lg:flex">
       {
         JOURNEY.map((j) => (
-          <a href={withBase(j.slug)} class="transition-colors hover:text-slate-900">
+          <a href={withBase(j.slug)} class="transition-colors hover:text-coral-deep">
             {j.nav}
           </a>
         ))
       }
-      <a href={withBase("/premium")} class="transition-colors hover:text-slate-900">Premium</a>
-      <a href={withBase("/feedback")} class="transition-colors hover:text-slate-900">Feedback</a>
+      <a href={withBase("/premium")} class="transition-colors hover:text-coral-deep">Premium</a>
+      <a href={withBase("/feedback")} class="transition-colors hover:text-coral-deep">Feedback</a>
     </div>
 
     <CtaButton size="md" class="shrink-0">

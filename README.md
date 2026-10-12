@@ -7,7 +7,8 @@ Chrome Web Store installs, seed the Premium waitlist, and collect feedback.
 
 - **Astro 5** (static / SSG) — ships ~zero client JS by default for best SEO + Core Web Vitals.
 - **Tailwind CSS 4** via `@tailwindcss/vite`; design tokens in `src/styles/global.css` (`@theme`),
-  mirrored from the extension's `tailwind.config.ts` + `marketing.md`.
+  mirrored from splander-com/jobs `extension/DESIGN-SYSTEM.md` + `tailwind.config.ts`
+  (coral `action` with ink labels, `coral-deep` for links, `chrome` bands, status tones).
 - Self-hosted fonts (`@fontsource` Inter + Sora) — no render-blocking Google Fonts.
 - `@astrojs/sitemap` for `sitemap-index.xml`.
 - Deployed on **Vercel** (static). Security/cache headers in `vercel.json`.
@@ -25,11 +26,11 @@ npm run check              # astro type/diagnostics check
 
 ## Structure
 
-- `src/consts.ts` — brand strings, store URL, the 5-stage journey list.
-- `src/data/journeys.ts` — all copy for the 5 journey pages (edit here, no layout changes).
-- `src/components/` — `Mark`/`Wordmark` (ported from `extension/lib/brand-mark.ts`), `Seo`,
+- `src/consts.ts` — slogan, short pitch, job-site list, store URL, the 5 feature pages.
+- `src/data/journeys.ts` — all copy for the 5 feature pages (edit here, no layout changes).
+- `src/components/` — `Mark`/`Wordmark`/`Lockup`/`Mascot`/`Moment` (brand-kit art from `public/brand/`), `Seo`,
   `SiteHeader`/`SiteFooter`, section components, `FeedbackForm`, `VideoEmbed` (click-to-load facade).
-- `src/pages/` — `index`, `[slug]` (the 5 journey pages), `premium`, `privacy`, `feedback`, `404`.
+- `src/pages/` — `index`, `[slug]` (the 5 feature pages), `premium`, `privacy`, `feedback`, `404`.
 
 ## Feedback form
 
@@ -70,5 +71,5 @@ keep it in step with what `src/components/FeedbackForm.astro` sends.
 
 ## Media
 
-Most product screenshots/videos are placeholders. See `MEDIA-CHECKLIST.md` for what to
-produce and where each asset slots in.
+Screenshots, video and brand art are copied from their sources. See `MEDIA-CHECKLIST.md` for where
+each one comes from and the brand rules for placing it.
