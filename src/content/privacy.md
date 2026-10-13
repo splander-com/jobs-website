@@ -1,6 +1,6 @@
 # Splander Jobs Privacy Policy
 
-_Last updated: 2026-10-11_
+_Last updated: 2026-10-13_
 
 Splander Jobs is a Chrome extension that helps you track job applications you find
 on LinkedIn, Indeed, Glassdoor, AllJobs, JobNet, JobFox and Jobify, and fill in application forms. This page describes exactly what data the extension
@@ -8,15 +8,18 @@ handles, where it lives, and what we do (and don't do) with it.
 
 ## Summary, in one paragraph
 
-Splander Jobs runs entirely in your browser. Every job you track is saved to
-`chrome.storage.local` on your own device. The extension does not have a
-server-side database of your applications, and we never see or transmit your
-job-search data. The only personal information that ever leaves your device
-is your email address, **and only if** you choose to submit it to the
-Premium waitlist on the Premium tab or to be notified about our new jobs
-website. Everything else that can leave your device does so only after you
-turn it on: signing in to sync across devices (section 3), the AI features
-(section 8) and CV open tracking (section 9). The extension also sends an anonymous,
+Splander Jobs runs in your browser. Every job you track is saved to
+`chrome.storage.local` on your own device, and while you are signed out it
+stays there: we never see or transmit your job-search data. Signing in is
+optional. When you sign in, cloud sync turns on by default and copies your
+tracked jobs, contacts, CVs and settings to your own account in our Supabase
+project, so your tracker follows you across devices; you can turn it off in
+Settings (section 3). Email content from Gmail never syncs (section 4). The AI
+features (section 8) and CV open tracking (section 9) also send data only after
+you turn them on. Apart from those, the only personal information that ever
+leaves your device is your email address, **and only if** you choose to submit
+it to the Premium waitlist on the Premium tab or to be notified about our new
+jobs website. The extension also sends an anonymous,
 opt-out usage heartbeat (a random id + coarse counts, no personal data) so we
 can count active users — see section 5 — and, only when you explicitly submit
 the in-app feedback form or tap a rating, your message plus those same coarse,
@@ -54,10 +57,10 @@ Premium opens for beta access.
 - **Where it lives:** A `waitlist_signups` row in our Supabase database plus
   an unconfirmed Supabase Auth user record with the same email.
 - **What we use it for:** Notifying you when Premium opens for beta and (if
-  we promote you to a beta tester) signing you in for Premium cloud sync.
+  we promote you to a beta tester) signing you in to Premium.
 - **What we do NOT use it for:** Marketing emails unrelated to Splander Jobs,
-  selling to third parties, advertising, or recovery of your local
-  tracking data (we do not store your tracking data on our servers).
+  selling to third parties, or advertising. Joining the waitlist uploads none
+  of your tracking data; only signing in with cloud sync on does (section 3).
 - **How to delete:** Email `dev@splander.com` from the address you
   signed up with and we'll remove your waitlist row and any associated
   auth user.
