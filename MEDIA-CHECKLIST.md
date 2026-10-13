@@ -9,7 +9,8 @@ regenerate brand art here; refresh the copy instead.
 | `public/favicon.*`, `favicon-*.png`, `apple-touch-icon.png`, `icon-192/512.png` | brand kit `03-marketing/web/` | `<head>`, `site.webmanifest` |
 | `public/og-image.png` | brand kit `03-marketing/social/og-image-1200x630.png` | Open Graph / Twitter card |
 | `public/screens/*.png` | splander-com/jobs `store-assets/screenshots/` (1280×800, regenerate with `node scripts/store-screenshots.mjs`) | home + feature-page heroes |
-| `public/media/promo-30s.mp4`, `promo-poster.png` | splander-com/jobs `marketing/promo-video/deliverables/` | home hero (click-to-load) |
+| `public/media/promo-30s.mp4`, `promo-poster.png` | splander-com/jobs `marketing/promo-video/deliverables/` | home hero: "Watch with sound" |
+| `public/media/promo-loop-720p.mp4` | `ffmpeg -i promo-30s.mp4 -an -vf "scale=1280:-2,fps=30" -c:v libx264 -crf 27 -preset slow -pix_fmt yuv420p -movflags +faststart` | home hero: muted autoplay loop |
 
 ## Brand rules that affect placement
 

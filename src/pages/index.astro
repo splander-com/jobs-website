@@ -5,7 +5,7 @@ import CtaButton from "../components/CtaButton.astro";
 import ChromeGlyph from "../components/ChromeGlyph.astro";
 import FeatureCard from "../components/FeatureCard.astro";
 import ScreenshotFrame from "../components/ScreenshotFrame.astro";
-import VideoEmbed from "../components/VideoEmbed.astro";
+import HeroVideo from "../components/HeroVideo.astro";
 import PrivacyStrip from "../components/PrivacyStrip.astro";
 import Moment from "../components/Moment.astro";
 import Mascot from "../components/Mascot.astro";
@@ -121,12 +121,11 @@ const orgLd = {
         </p>
       </div>
 
-      <VideoEmbed
+      <HeroVideo
+        loop="/media/promo-loop-720p.mp4"
         src="/media/promo-30s.mp4"
         poster="/media/promo-poster.png"
         title="Splander Jobs in 30 seconds"
-        label="Watch the video · 0:30"
-        priority
       />
     </div>
   </section>
