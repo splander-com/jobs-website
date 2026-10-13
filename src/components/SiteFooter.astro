@@ -1,31 +1,26 @@
 ---
-import Wordmark from "./Wordmark.astro";
-import { JOURNEY, SUPPORT_EMAIL, SPLANDER_HOME, CHROME_STORE_URL, withBase } from "../consts";
+import Lockup from "./Lockup.astro";
+import { JOURNEY, SUPPORT_EMAIL, SPLANDER_HOME, CHROME_STORE_URL, JOB_SITES_TEXT, withBase } from "../consts";
 ---
 
-<footer class="band-plum text-slate-300">
-  <div class="mx-auto grid max-w-6xl gap-10 px-5 py-14 sm:grid-cols-2 lg:grid-cols-4">
+<footer class="bg-chrome text-zinc-300">
+  <div class="mx-auto grid max-w-6xl gap-10 px-4 py-14 sm:grid-cols-2 sm:px-5 lg:grid-cols-4">
     <div class="lg:col-span-1">
-      <Wordmark size={26} tone="light" />
-      <p class="mt-4 max-w-xs text-sm leading-relaxed text-slate-400">
-        The free, private job-application tracker. Runs entirely in your browser —
-        no account, no signup.
+      <Lockup variant="black" width={210} class="-ml-3" />
+      <p class="mt-2 max-w-xs text-sm leading-relaxed text-zinc-400">
+        Your job search co-pilot. Free to use, no account needed. Sign in only if you want free sync across devices.
       </p>
     </div>
 
     <div>
-      <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400">The journey</h3>
+      <h2 class="eyebrow text-zinc-400">Features</h2>
       <ul class="mt-4 space-y-2 text-sm">
-        {
-          JOURNEY.map((j) => (
-            <li><a href={withBase(j.slug)} class="transition-colors hover:text-white">{j.nav} — {j.eyebrow}</a></li>
-          ))
-        }
+        {JOURNEY.map((j) => <li><a href={withBase(j.slug)} class="transition-colors hover:text-white">{j.nav}</a></li>)}
       </ul>
     </div>
 
     <div>
-      <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400">Product</h3>
+      <h2 class="eyebrow text-zinc-400">Product</h2>
       <ul class="mt-4 space-y-2 text-sm">
         <li><a href={CHROME_STORE_URL} target="_blank" rel="noopener" class="transition-colors hover:text-white">Add to Chrome</a></li>
         <li><a href={withBase("/premium")} class="transition-colors hover:text-white">Premium</a></li>
@@ -35,7 +30,7 @@ import { JOURNEY, SUPPORT_EMAIL, SPLANDER_HOME, CHROME_STORE_URL, withBase } fro
     </div>
 
     <div>
-      <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400">Splander</h3>
+      <h2 class="eyebrow text-zinc-400">Splander</h2>
       <ul class="mt-4 space-y-2 text-sm">
         <li><a href={SPLANDER_HOME} target="_blank" rel="noopener" class="transition-colors hover:text-white">splander.com</a></li>
         <li><a href={`mailto:${SUPPORT_EMAIL}`} class="transition-colors hover:text-white">{SUPPORT_EMAIL}</a></li>
@@ -44,11 +39,11 @@ import { JOURNEY, SUPPORT_EMAIL, SPLANDER_HOME, CHROME_STORE_URL, withBase } fro
   </div>
 
   <div class="border-t border-white/10">
-    <div class="mx-auto flex max-w-6xl flex-col gap-2 px-5 py-6 text-xs text-slate-400 sm:flex-row sm:items-center sm:justify-between">
-      <p>© {new Date().getFullYear()} Splander. Part of the Splander family.</p>
-      <p class="max-w-xl text-slate-500">
-        Independent tool — not affiliated with, endorsed by, or sponsored by LinkedIn,
-        Indeed, Glassdoor, or Google. All trademarks belong to their respective owners.
+    <div class="mx-auto flex max-w-6xl flex-col gap-2 px-4 py-6 text-xs text-zinc-400 sm:flex-row sm:items-start sm:justify-between sm:px-5">
+      <p class="shrink-0">© {new Date().getFullYear()} Splander. Part of the Splander family.</p>
+      <p class="max-w-xl">
+        Independent tool. Not affiliated with, endorsed by or sponsored by {JOB_SITES_TEXT.replace(" and ", ", ")}, Google or
+        any applicant-tracking system named on this site. All trademarks belong to their respective owners.
       </p>
     </div>
   </div>

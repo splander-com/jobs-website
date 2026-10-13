@@ -1,0 +1,17 @@
+---
+import StatusPill, { type Tone } from "./StatusPill.astro";
+
+const pills: { label: string; tone: Tone }[] = [
+  { label: "Sent CV", tone: "sent" },
+  { label: "CV received", tone: "received" },
+  { label: "Interview", tone: "interview" },
+  { label: "Offer", tone: "offer" },
+  { label: "On hold", tone: "hold" },
+  { label: "Rejected", tone: "rejected" },
+  { label: "Ignored", tone: "neutral" },
+];
+---
+
+<ul class="flex flex-wrap gap-2" aria-label="Status pills">
+  {pills.map((p) => <li><StatusPill label={p.label} tone={p.tone} /></li>)}
+</ul>

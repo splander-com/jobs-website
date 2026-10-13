@@ -1,13 +1,28 @@
-// Content for the 5 job-journey pages. Copy is benefit-led and sourced from
-// marketing.md + store-assets/STORE-LISTING.md, staying inside the claim rules
-// (no superlatives, no competitor product names, no outcome promises).
-// Editing copy here needs no layout changes — the journey page reads this.
+// Content for the five feature pages. Copy was signed off in "Splander Jobs
+// site — new copy for sign-off" (2026-10-11) and follows MESSAGING.md's claims
+// rules: list every job site or none, no job/salary/date promises, no numbers
+// we can't prove, Gmail always "your choice, read-only, read on your device",
+// and no flying metaphors. Editing copy here needs no layout changes.
+
+/** A real 1280×800 store screenshot (public/screens). */
+export interface Shot {
+  src: string;
+  alt: string;
+}
+
+/** One of the brand kit's product moments (public/brand/mascot). Decorative:
+ *  rendered alt="" + aria-hidden, the text beside it carries the meaning. */
+export type Moment = "saved-as-applied" | "streak";
 
 export interface JourneyFeature {
   title: string;
   body: string;
-  /** Optional screenshot placeholder caption for this feature block. */
-  shot?: string;
+  /** A moment illustration — only beside the feature it depicts. */
+  moment?: Moment;
+  /** Caption under the moment illustration. */
+  momentCaption?: string;
+  /** Show the seven status-tone pills under this feature. */
+  statusLegend?: boolean;
 }
 
 export interface Faq {
@@ -17,7 +32,6 @@ export interface Faq {
 
 export interface JourneyContent {
   slug: string;
-  step: number; // 1-based position in the arc
   eyebrow: string;
   nav: string;
   title: string;
@@ -25,235 +39,238 @@ export interface JourneyContent {
   intro: string;
   metaTitle: string;
   metaDescription: string;
+  /** Hero screenshot; without one the hero shows the mascot sticker. */
+  heroShot?: Shot;
   features: JourneyFeature[];
   faqs: Faq[];
-  /** Caption for the hero screenshot/video placeholder. */
-  heroShot: string;
 }
+
+export const SHOTS = {
+  badges: {
+    src: "/screens/01-badges-and-review.png",
+    alt: "Job cards on a job board, each with a status pill, next to the Splander Jobs side panel reviewing the open job.",
+  },
+  dailyGoal: {
+    src: "/screens/02-daily-goal.png",
+    alt: "The Splander Jobs home screen: CVs sent today against the daily goal, the streak, and the pipeline.",
+  },
+  pipeline: {
+    src: "/screens/03-pipeline.png",
+    alt: "The Applied Jobs list in the side panel, with a status pill on every application.",
+  },
+  cvFit: {
+    src: "/screens/04-cv-fit.png",
+    alt: "The CV match for a job: the required skills the CV has and the ones it's missing.",
+  },
+  autofill: {
+    src: "/screens/05-autofill.png",
+    alt: "An application form filled in by Splander Jobs from the saved profile and CV, waiting for review.",
+  },
+} satisfies Record<string, Shot>;
 
 export const JOURNEYS: JourneyContent[] = [
   {
     slug: "track",
-    step: 1,
-    eyebrow: "Discover & Track",
+    eyebrow: "Track",
     nav: "Track",
-    title: "Every application, tracked across every board",
+    title: "Every application, in one place",
     subtitle:
-      "A status badge on every listing, and a private side-panel tracker that remembers each job from CV to offer.",
+      "A status pill on every job card, and a side panel that keeps every job you save, from Sent CV to Offer.",
     intro:
-      "The job hunt scatters across tabs, boards, and a spreadsheet you forget to update. Splander Jobs puts a status pill on every listing you've touched and keeps the whole pipeline in one private side panel — so you never open the same job twice.",
-    metaTitle: "Track job applications across LinkedIn, Indeed, Glassdoor & jobnet",
+      "A job search spreads across tabs, job sites and a spreadsheet you forget to update. Splander Jobs puts a status pill on every job you've touched and keeps your whole search in one side panel, so you stop re-reading the same jobs.",
+    metaTitle: "Track job applications on LinkedIn, Indeed, Glassdoor, AllJobs, JobNet, JobFox and Jobify",
     metaDescription:
-      "Put a status badge on every job listing and track every application from CV to offer in one private side panel. Works on LinkedIn, Indeed, Glassdoor and jobnet.co.il. Free, no signup.",
-    heroShot: "Status pills on a job card + side-panel list",
+      "A status pill on every job card and one side panel for every application, from Sent CV to Offer. Works on LinkedIn, Indeed, Glassdoor, AllJobs, JobNet, JobFox and Jobify. Free, no account needed.",
+    heroShot: SHOTS.badges,
     features: [
       {
-        title: "Status badges on every listing",
-        body: "Browse LinkedIn, Indeed, Glassdoor and jobnet.co.il as usual. Splander Jobs attaches a colored status pill to each card — Sent CV, Interview, Offer, Rejected, and more — so you instantly see what you've already applied to or chosen to ignore.",
-        shot: "Status badge overlay on a results card",
+        title: "A status pill on every job card",
+        body: "Browse LinkedIn, Indeed, Glassdoor, AllJobs, JobNet, JobFox and Jobify as usual. Each job card shows its status, like Sent CV, Interview, Offer or Rejected, so you see at a glance what you've applied to, saved or ignored.",
+        statusLegend: true,
       },
       {
-        title: "Save a job in one click",
-        body: "An in-page action bar on each job lets you save it, ignore the listing or the whole company, or open it in the side panel — without leaving the page. Saving snapshots the role and scrapes the description for you.",
-        shot: "In-page action bar (save / ignore / open)",
+        title: "Everything you need to decide",
+        body: "Click any job to open it in the side panel: the role, your notes, and your history with this company.",
       },
       {
-        title: "Your whole pipeline, one panel",
-        body: "The side panel is a sortable, searchable list of every application you've tracked, filterable by status and date. One row per company rolls up to its most advanced stage so the picture stays clean.",
-        shot: "Side-panel job list with filters",
+        title: "Save in one click",
+        body: "Save a job straight from the job page. If a role is reposted, Save again picks it up without starting over.",
+        moment: "saved-as-applied",
+        momentCaption: "Saved to Applied Jobs · One more step forward.",
       },
       {
-        title: "Add jobs your way",
-        body: "Add a role manually, paste a description to auto-parse it, or bulk-import a whole list at once. Inline editing covers title, company, location, salary terms and notes, and every change is kept in a per-application activity log.",
-        shot: "Add-job: manual / paste / bulk",
+        title: "Never lose track",
+        body: "Every job keeps its details, notes, salary terms and a full history of status changes.",
       },
     ],
     faqs: [
       {
-        q: "Which job boards does Splander Jobs work on?",
-        a: "LinkedIn, Indeed, Glassdoor and jobnet.co.il. A status badge appears on listings across all of them, and everything you save lands in one shared tracker.",
+        q: "Which job sites does Splander Jobs work on?",
+        a: "LinkedIn, Indeed, Glassdoor, AllJobs, JobNet, JobFox and Jobify. Every job you save goes into one tracker.",
       },
       {
-        q: "Do I need an account to track jobs?",
-        a: "No. Tracking works fully without an account — every job is saved locally in your browser. Signing in is optional and only adds cross-device backup and the Premium waitlist.",
+        q: "Do I need an account?",
+        a: "No. Tracking works without an account, and every job is saved in your browser. Signing in is optional and turns on free cloud sync across your devices.",
       },
     ],
   },
   {
     slug: "score",
-    step: 2,
-    eyebrow: "Score & Optimize",
+    eyebrow: "Score",
     nav: "Score",
-    title: "Know if your CV fits — before you apply",
-    subtitle:
-      "An instant match score against every job, plus tools to optimize your CV and LinkedIn profile for the roles you want.",
+    title: "See how your CV fits, before you apply",
+    subtitle: "A free CV match on every job, up to 10 CVs, and a score for your LinkedIn profile.",
     intro:
-      "Applying blind wastes your best hours. Splander Jobs scores your CV against each saved job, shows which required skills you're missing, and helps you tighten your CV and LinkedIn profile around the roles you actually want.",
-    metaTitle: "CV-to-job match score & profile optimization",
+      "Applying to the wrong roles costs you time. Splander Jobs compares your CV with each job and shows the required skills you have and the ones you're missing, so you can focus on the jobs that fit.",
+    metaTitle: "Free CV match for every job you save",
     metaDescription:
-      "Get an instant CV-to-job match score on every saved job, see the skills you're missing, and optimize your CV and LinkedIn profile. Free rule-based scoring; AI scoring on Premium.",
-    heroShot: "ATS match score with matched / missing skills",
+      "See which required skills your CV has and which are missing, keep up to 10 CVs with rules for which goes where, and score your LinkedIn profile. The CV match is free and runs on your device.",
+    heroShot: SHOTS.cvFit,
     features: [
       {
-        title: "Instant CV-to-job match",
-        body: "Every saved job gets a match score against your CV, highlighting the required skills you have and the ones you're missing, with Jobscan-style keyword frequencies and how well your title and seniority line up with the role — tuned to the target role and seniority you set in your preferences.",
-        shot: "Match score + missing-skills list",
+        title: "A free CV match",
+        body: "Every job you save gets a match against your CV: the required skills you have and the ones you're missing. It's free and runs on your device.",
       },
       {
-        title: "A private CV vault",
-        body: "Drop in your CV once (PDF, DOCX or text — parsed on your device) and every scoring surface reuses it. Nothing is uploaded unless you turn on cloud sync.",
-        shot: "CV vault editor",
+        title: "The right CV for each job",
+        body: "Keep up to 10 CVs and set rules for which CV goes to which kind of role.",
       },
       {
-        title: "Optimize your LinkedIn profile",
-        body: "Import your own LinkedIn profile in one click and get a completeness-and-alignment score against your target role, with a clear, prioritized list of what to improve next.",
-        shot: "LinkedIn Profile Score with checks",
-      },
-      {
-        title: "Track your SSI trend",
-        body: "Splander Jobs captures your LinkedIn Social Selling Index over time and charts the trend, so you can see your networking visibility move as you put the work in.",
-        shot: "SSI sparkline card",
+        title: "Score your LinkedIn profile",
+        body: "Import your LinkedIn profile and get a profile score, with a list of what to improve next.",
       },
     ],
     faqs: [
       {
-        q: "Is the match score free?",
-        a: "Yes. A deterministic, on-device match score is free and runs with no network calls. Premium adds an AI-quality score and tailored CV suggestions.",
+        q: "Is the CV match free?",
+        a: "Yes. It runs on your device and needs no account. AI CV match and resume tailoring are part of Premium, which is coming soon.",
       },
       {
         q: "Where is my CV stored?",
-        a: "On your device, in local browser storage. It only reaches the cloud if you explicitly turn on cloud sync while signed in.",
+        a: "On your device. It goes to the cloud only if you sign in and keep cloud sync on.",
       },
     ],
   },
   {
     slug: "automate",
-    step: 3,
     eyebrow: "Automate",
     nav: "Automate",
-    title: "Your status updates itself, straight from your inbox",
-    subtitle:
-      "Connect Gmail (read-only, opt-in) and a recruiter's reply moves the matching application forward — automatically.",
+    title: "Fill the form once. Let your inbox update your tracker.",
+    subtitle: "Autofill for application forms, and optional, read-only Gmail updates that are read on your device.",
     intro:
-      "The most tedious part of tracking is updating statuses by hand. Connect Gmail — read-only and opt-in, classified entirely on your device — and Splander Jobs advances the right application the moment a recruiter replies, spots interview invites, and surfaces new openings from your inbox.",
-    metaTitle: "Automatic job-application status updates from Gmail",
+      "The slowest parts of a job search are typing the same details into every form and checking your inbox for replies. Splander Jobs fills the forms for you. If you choose to connect Gmail, it also moves each application forward when a reply arrives.",
+    metaTitle: "Autofill application forms and get status updates from Gmail",
     metaDescription:
-      "Connect Gmail read-only and opt-in: recruiter replies advance the matching application automatically, calendar invites are detected as interviews, and new openings surface from your inbox. Classified on-device.",
-    heroShot: "A recruiter email advancing an application's status",
+      "Autofill your details and CV into application forms such as Greenhouse, Lever, Workable, Comeet and Workday. Connect Gmail if you choose, read-only, and replies update each application. Emails are read on your device.",
+    heroShot: SHOTS.autofill,
     features: [
       {
-        title: "Status that moves on its own",
-        body: "A recruiter reply, a rejection, an interview request — Splander Jobs reads the signal and advances the matching application without you editing anything. The classifier runs on your device; no email content ever leaves your browser.",
-        shot: "Auto-advanced status with email match",
+        title: "Fill the form once",
+        body: "Autofill puts your name, email, phone, profile links and the CV you chose into application forms on supported job sites and application systems, such as Greenhouse, Lever, Workable, Comeet and Workday.",
       },
       {
-        title: "Interviews caught from calendar invites",
-        body: "A booked meeting is the strongest interview signal there is. Calendar invites are detected and moved to the interview stage automatically, so your funnel reflects reality.",
-        shot: "Calendar invite → Interview stage",
+        title: "You stay in control",
+        body: "By default, autofill fills the form and waits for you to review and submit. It never invents an answer to a question you haven't answered before.",
       },
       {
-        title: "New openings, surfaced",
-        body: "Job-alert and recruiter-outreach emails become a separate \"New positions\" feed — opportunities you haven't applied to yet — kept apart from your active funnel so it stays clean.",
-        shot: "New positions feed",
+        title: "Your inbox updates your tracker",
+        body: "Connect Gmail if you choose to. It's optional and read-only. Replies from recruiters and application systems move each application to CV received, interview, offer or rejection.",
       },
       {
-        title: "Read-only and reversible",
-        body: "The Gmail connection is opt-in, asks only for read access, and can be disconnected anytime from Settings. You stay in control of exactly what's read and when.",
-        shot: "Gmail settings — connect / disconnect",
+        title: "Read on your device",
+        body: "Emails are read on your device and never leave it. You can disconnect Gmail in Settings at any time.",
       },
     ],
     faqs: [
       {
         q: "Does Splander Jobs read all my email?",
-        a: "It requests read-only access and classifies messages on your device to match them to jobs you're tracking. No email content is sent to any server, and you can disconnect at any time.",
+        a: "Only if you choose to connect Gmail, and only with read-only access. Emails are read on your device to match them to the jobs you track, and they never leave it.",
       },
       {
         q: "Will it change anything in my Gmail?",
-        a: "The public Chrome Web Store build is read-only — it never modifies your mailbox. It only reads to update your tracker locally.",
+        a: "No. The Chrome Web Store version is read-only. It never sends, deletes or changes email.",
+      },
+      {
+        q: "Does autofill submit applications for me?",
+        a: "Not by default. It fills the form and waits for you to review it and press Submit.",
       },
     ],
   },
   {
     slug: "network",
-    step: 4,
-    eyebrow: "Network & Reach out",
+    eyebrow: "Network",
     nav: "Network",
-    title: "Every recruiter, organized — and reached",
-    subtitle:
-      "A lightweight CRM for the people behind the jobs, with outreach drafts and one-click autofill for application forms.",
+    title: "Keep every recruiter in one place",
+    subtitle: "Your recruiter contacts, follow-ups from your own templates, and an option to see if your CV was opened.",
     intro:
-      "Jobs come from people. Splander Jobs keeps a tidy contact list of every recruiter you've encountered, helps you draft outreach in your own voice across three channels, and autofills the same details into application forms so you stop retyping them.",
-    metaTitle: "Recruiter CRM, outreach drafts & one-click ATS autofill",
+      "Jobs come through people. Splander Jobs keeps the recruiters you talk to in one place, helps you write follow-ups in your own words, and can tell you when someone opens your CV.",
+    metaTitle: "Recruiter contacts, follow-up messages and CV open tracking",
     metaDescription:
-      "Keep a lightweight CRM of every recruiter, draft outreach across LinkedIn, email and WhatsApp, and autofill your details into Greenhouse, Lever, Workday and more. Free templates; AI drafting on Premium.",
-    heroShot: "Recruiter contact with outreach drafts",
+      "Keep your recruiter contacts in one place, draft follow-up messages from your own templates, and turn on CV open tracking to see if your CV was opened. Free.",
     features: [
       {
-        title: "A CRM for recruiters",
-        body: "Contacts are derived automatically from the jobs you apply to, and you can capture a headhunter straight from their LinkedIn profile with a \"Track recruiter\" button. Each contact rolls up the roles and conversations tied to them.",
-        shot: "Contacts list + recruiter detail",
+        title: "Recruiter contacts in one place",
+        body: "Every recruiter you talk to, with the jobs and messages tied to them.",
       },
       {
-        title: "Outreach in your voice",
-        body: "Draft messages across LinkedIn, email and WhatsApp from your own editable templates. Mark a message sent to log it, then keep a daily outreach target — a second goal ring, with a streak and a running reply-and-conversion rate — so you reach out as consistently as you apply.",
-        shot: "3-channel outreach composer + daily target ring",
+        title: "Follow-ups from your templates",
+        body: "Draft follow-up messages from your own templates, so you never start from a blank page.",
       },
       {
-        title: "Apply faster with one-click autofill",
-        body: "Fill your name, email, phone and profile links into LinkedIn Easy Apply and supported ATS forms — Greenhouse, Lever, Workable, Comeet, Workday and more, even when the form sits in a cross-origin iframe — instead of retyping them. Opt-in, and it never submits for you.",
-        shot: "Autofill on an ATS application form",
+        title: "See if your CV was opened",
+        body: "Turn on CV open tracking and see when the CV you sent was opened. It's off by default and needs you to sign in.",
       },
     ],
     faqs: [
       {
-        q: "Which application forms does autofill support?",
-        a: "LinkedIn Easy Apply and a range of common ATS platforms including Greenhouse, Lever, Workable, Comeet and Workday. It fills the fields you've saved and never submits on your behalf.",
+        q: "Does Splander Jobs send messages for me?",
+        a: "No. It drafts the message, and you send it yourself.",
       },
       {
-        q: "Is outreach drafting free?",
-        a: "Editable templates and send tracking are free. AI-drafted outreach that adapts to each recruiter is a Premium feature.",
+        q: "How does CV open tracking work?",
+        a: "When it's on, the CV you attach is marked so we can tell you when it's opened. Only you see the result, on the job it belongs to. Turn it off in Settings at any time.",
       },
     ],
   },
   {
     slug: "land",
-    step: 5,
-    eyebrow: "Stay on pace & land it",
-    nav: "Land",
-    title: "Keep momentum until the offer lands",
-    subtitle:
-      "A daily target, a streak, and a clear funnel so you always know where your search is winning — and where it's leaking.",
+    eyebrow: "Goals",
+    nav: "Goals",
+    title: "Keep sending CVs, every day",
+    subtitle: "A daily and weekly CV goal, a streak, and a pipeline that shows what's working.",
     intro:
-      "A long search lives or dies on consistency. Splander Jobs gives you a daily CV-send target, a streak to protect, and a five-stage funnel that shows exactly where applications convert and where they stall — so you can keep momentum to the offer.",
-    metaTitle: "Daily goals, streaks & a job-search funnel",
+      "A long job search runs on consistency. Splander Jobs gives you a daily and weekly CV goal, a streak to protect, and a pipeline from Sent CV to Offer, so you can see where your search is moving and where it's stuck.",
+    metaTitle: "Daily CV goals, streaks and job search insights",
     metaDescription:
-      "Set a daily CV-send target, keep a streak, and watch a five-stage funnel from Sent CV to Offer show where your search converts and where it stalls. Free dashboard, no signup.",
-    heroShot: "Dashboard ring, streak and funnel chart",
+      "Set a daily and weekly CV goal, keep your streak, and follow every application from Sent CV to Offer, with insights from the last 3 months. Free, works without an account.",
+    heroShot: SHOTS.dailyGoal,
     features: [
       {
-        title: "A daily target and a streak",
-        body: "Set how many applications you want to send each day. A progress ring tracks today, and a streak counter rewards every day you keep going — momentum you can see.",
-        shot: "Daily-target ring + streak",
+        title: "Hit your daily CV goal",
+        body: "Set daily and weekly goals for the CVs you send, and keep your streak going.",
+        moment: "streak",
       },
       {
-        title: "A funnel that tells the truth",
-        body: "A five-stage funnel — Sent CV → HR interview → Manager interview → Offer — shows step-over-step conversion, so you can tell whether the problem is applications, replies, or interviews.",
-        shot: "5-stage funnel chart",
+        title: "Moments worth marking",
+        body: "A short celebration when you save a job, reach your goal, or get an interview or an offer. You can make it subtle or turn it off.",
       },
       {
-        title: "The full picture at a glance",
-        body: "The dashboard rolls up your sources, your most-applied titles, rejections and dormant roles, and how well your applications align with your stated preferences.",
-        shot: "Dashboard overview",
+        title: "See what's working",
+        body: "A pipeline from Sent CV to Offer shows where each application stands.",
+      },
+      {
+        title: "Your last 3 months",
+        body: "Insights on how your applications have moved over the last 3 months.",
       },
     ],
     faqs: [
       {
-        q: "Can I set my own daily goal?",
-        a: "Yes — the daily CV-send target is configurable from 1 to 100, defaulting to 10. The dashboard ring and streak track against whatever you choose.",
+        q: "Can I set my own goal?",
+        a: "Yes. Choose how many CVs to send each day and each week. Your streak counts against your own goal.",
       },
       {
-        q: "Is the dashboard free?",
-        a: "Yes. The dashboard, funnel, streak and goals are all free, and work entirely on your device.",
+        q: "Is this free?",
+        a: "Yes. Goals, streaks, the pipeline and insights are all free.",
       },
     ],
   },

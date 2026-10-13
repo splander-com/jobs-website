@@ -3,6 +3,7 @@ import { CHROME_STORE_URL, withBase } from "../consts";
 
 interface Props {
   href?: string;
+  /** primary = the one coral action; ghost = on light; ghost-light = on chrome. */
   variant?: "primary" | "ghost" | "ghost-light";
   size?: "md" | "lg";
   external?: boolean;
@@ -23,24 +24,19 @@ const isInternal = href.startsWith("/") && !href.startsWith("//");
 const resolvedHref = isInternal ? withBase(href) : href;
 
 const base =
-  "inline-flex items-center justify-center gap-2 rounded-xl font-semibold transition-transform duration-150 hover:-translate-y-0.5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green";
-const sizes = { md: "px-5 py-2.5 text-sm", lg: "px-7 py-3.5 text-base" };
+  "inline-flex items-center justify-center gap-2 rounded-control font-semibold transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-2";
+const sizes = { md: "px-4 py-2.5 text-sm", lg: "px-6 py-3.5 text-base" };
 const variants = {
-  // emerald-700 so white label clears WCAG AA 4.5:1 (brand #10B981 was 2.5:1).
-  primary: "bg-emerald-700 text-white shadow-cta hover:bg-emerald-800",
-  ghost: "bg-white text-slate-900 border border-slate-200 hover:border-slate-300",
-  "ghost-light": "bg-white/10 text-white border border-white/25 hover:bg-white/15",
+  // Coral fill, ink label (5.9:1). Never a white label on coral (2.6:1).
+  primary: "bg-action text-ink hover:bg-fold focus-visible:outline-coral-deep",
+  ghost: "bg-white text-zinc-900 border border-zinc-300 hover:border-zinc-400 focus-visible:outline-coral-deep",
+  "ghost-light": "bg-white/10 text-white border border-white/25 hover:bg-white/15 focus-visible:outline-action",
 };
 const rel = external ? "noopener" : undefined;
 const target = external ? "_blank" : undefined;
 ---
 
-<a
-  href={resolvedHref}
-  rel={rel}
-  target={target}
-  class={`${base} ${sizes[size]} ${variants[variant]} ${cls}`}
->
+<a href={resolvedHref} rel={rel} target={target} class={`${base} ${sizes[size]} ${variants[variant]} ${cls}`}>
   <slot name="icon" />
   <slot />
 </a>

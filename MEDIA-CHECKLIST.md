@@ -1,37 +1,25 @@
-# Media to produce
+# Media
 
-The site ships now with styled placeholders. Swap real assets in as they're produced —
-each `ScreenshotFrame`/`VideoEmbed` takes a `src` / `youtube` / `poster` prop, so it's a
-one-line change per slot. Specs follow `marketing.md §8`.
+Every asset is copied verbatim from its source. Never redraw, recolour or
+regenerate brand art here; refresh the copy instead.
 
-## Open Graph
+| Path | Source | Used on |
+|---|---|---|
+| `public/brand/` | brand kit `~/myapps/Splander-jobs-marketing/brand-kit` (`03-marketing/logo`, `03-marketing/mascot`, `01-app-extension/illustrations/mascot.svg`, `01-app-extension/icons/icon-32.svg` as `icon-plain.svg`, `03-marketing/web/icon.svg`) | header/footer lockups, mascot, product moments |
+| `public/favicon.*`, `favicon-*.png`, `apple-touch-icon.png`, `icon-192/512.png` | brand kit `03-marketing/web/` | `<head>`, `site.webmanifest` |
+| `public/og-image.png` | brand kit `03-marketing/social/og-image-1200x630.png` | Open Graph / Twitter card |
+| `public/screens/*.png` | splander-com/jobs `store-assets/screenshots/` (1280×800, regenerate with `node scripts/store-screenshots.mjs`) | home + feature-page heroes |
+| `public/media/promo-30s.mp4`, `promo-poster.png` | splander-com/jobs `marketing/promo-video/deliverables/` | home hero (click-to-load) |
 
-- [ ] `public/og-default.png` — **1200×630**, lockup + tagline on plum. Then set
-  `ogImage` default back to `/og-default.png` in `src/components/Seo.astro`
-  (currently falls back to the square `/icon-512.png`).
+## Brand rules that affect placement
 
-## Screenshots (1280×800, captioned)
+- The mascot's face needs at least 48px. `Mark` switches to the plain plane below that.
+- The plain mascot goes on light surfaces, and the white-halo sticker goes on chrome.
+- The product moments (`saved-as-applied`, `streak`) sit only beside the feature they
+  depict. They get `alt=""` + `aria-hidden`, and the text beside them carries the meaning.
+- Any motion goes behind `prefers-reduced-motion` / `motion-safe:`.
 
-Drop into `public/shots/` and pass `src` to the relevant `ScreenshotFrame`.
+## Still to produce
 
-- [ ] Status pills on a real job card → home hero + `/track`
-- [ ] Side-panel list + funnel → `/track`, `/land`
-- [ ] Dashboard ring + 🔥 streak with a recruiter email advancing a status → `/automate`, `/land`
-- [ ] Add Job (manual / paste / bulk) → `/track`
-- [ ] ATS match score (matched/missing skills) → `/score`
-- [ ] LinkedIn Profile Score + SSI sparkline → `/score`
-- [ ] Recruiter contact + 3-channel outreach → `/network`
-- [ ] Autofill on an ATS form → `/network`
-- [ ] Premium waitlist tab → `/premium`
-
-## Video
-
-- [ ] 45–60s demo (EN + HE captions). Host as unlisted YouTube → pass `youtube="<id>"`
-  to `<VideoEmbed>` on the home "How it works" section (and optionally a `poster`).
-- [ ] 9:16 ~15s social cut for LinkedIn / WhatsApp / Instagram (Israel GTM).
-
-## Notes
-
-- Keep captions in Sora bold, dark-slate or white-on-plum.
-- Consider Hebrew screenshot variants for a future `he` localized page set.
-- Do not imply LinkedIn/Indeed/Glassdoor partnership; no competitor names.
+- [ ] A contacts / recruiter screenshot for `/network` (the hero shows the mascot until then)
+- [ ] Hebrew versions of the screenshots and video for the Hebrew site

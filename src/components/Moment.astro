@@ -1,0 +1,26 @@
+---
+/*
+ * A brand-kit product moment. Only ever placed beside the feature it depicts;
+ * decorative to assistive tech (the text beside it carries the meaning).
+ */
+import { withBase } from "../consts";
+import type { Moment } from "../data/journeys";
+
+interface Props {
+  name: Moment;
+  width?: number;
+  class?: string;
+}
+const { name, width = 240, class: cls = "" } = Astro.props;
+---
+
+<img
+  src={withBase(`/brand/mascot/moment-${name}.svg`)}
+  width={width}
+  height={Math.round((width * 180) / 240)}
+  alt=""
+  aria-hidden="true"
+  loading="lazy"
+  decoding="async"
+  class={`block ${cls}`}
+/>
