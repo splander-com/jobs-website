@@ -1,6 +1,6 @@
 # Splander Jobs Privacy Policy
 
-_Last updated: 2026-10-13_
+_Last updated: 2026-10-14_
 
 Splander Jobs is a Chrome extension that helps you track job applications you find
 on LinkedIn, Indeed, Glassdoor, AllJobs, JobNet, JobFox and Jobify, and fill in application forms. This page describes exactly what data the extension
@@ -100,6 +100,12 @@ Google's read-only Gmail scope (`gmail.readonly`).
   *result* syncs — an application's company, job title and status. No email
   content is part of it.
 - **Disconnect:** any time, from Settings → Gmail.
+- **Google API Services User Data Policy:** Splander Jobs' use and transfer
+  of information received from Google APIs to any other app will adhere to
+  the [Google API Services User Data Policy](https://developers.google.com/terms/api-services-user-data-policy),
+  including the Limited Use requirements. Gmail data is used only to update
+  your own job-application tracker. It is not used for advertising, not sold,
+  not used to train AI models, and no person at Splander reads it.
 
 The Chrome Web Store build of Splander Jobs is **read-only** with respect to your
 Gmail — it never writes anything to your mailbox. (A separate full build,
