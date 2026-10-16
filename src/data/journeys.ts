@@ -178,13 +178,13 @@ export const JOURNEYS: JourneyContent[] = [
       },
       {
         title: "Read on your device",
-        body: "Emails are read on your device and never leave it. You can disconnect Gmail in Settings at any time.",
+        body: "Emails are read on your device and never uploaded. If you sign in to sync, only the result syncs: an application's company, title and status. You can disconnect Gmail in Settings at any time.",
       },
     ],
     faqs: [
       {
         q: "Does Splander Jobs read all my email?",
-        a: "Only if you choose to connect Gmail, and only with read-only access. Emails are read on your device to match them to the jobs you track, and they never leave it.",
+        a: "Only if you choose to connect Gmail, and only with read-only access. Emails are read on your device to match them to the jobs you track. The emails never leave your device. If you sync, only each application's company, title and status go with your tracker.",
       },
       {
         q: "Will it change anything in my Gmail?",

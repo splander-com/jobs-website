@@ -1,0 +1,116 @@
+---
+/*
+ * Home hero video: a silent 720p loop (`loop`, ~1.2 MB) plays muted on open;
+ * "Watch with sound" swaps in the full promo (`src`) from the start with
+ * controls. The loop only starts when the visitor allows motion and isn't on
+ * Save-Data — otherwise the poster stays, with the same two buttons. A
+ * pause/play toggle covers WCAG 2.2.2 (moving content over 5s).
+ */
+import { withBase } from "../consts";
+
+interface Props {
+  loop: string;
+  src: string;
+  poster: string;
+  title: string;
+}
+const { loop, src, poster, title } = Astro.props;
+---
+
+<div
+  class="relative overflow-hidden rounded-frame border border-white/10 bg-chrome shadow-frame"
+  style="aspect-ratio:16/9"
+  data-hero-video
+  data-full={withBase(src)}
+  data-title={title}
+>
+  <video
+    class="absolute inset-0 h-full w-full object-cover"
+    poster={withBase(poster)}
+    muted
+    loop
+    playsinline
+    preload="none"
+    aria-label={`${title} (muted preview)`}
+    data-loop-video
+  >
+    <source src={withBase(loop)} type="video/mp4" />
+  </video>
+
+  <div class="absolute inset-x-0 bottom-0 flex items-center justify-between gap-2 p-3 sm:p-4" data-controls>
+    <button
+      type="button"
+      class="grid h-10 w-10 place-items-center rounded-full bg-black/60 text-white transition-colors hover:bg-black/75 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-action"
+      aria-label="Play preview"
+      data-toggle
+    >
+      <svg data-icon-play width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+      <svg data-icon-pause class="hidden" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 5h4v14H7zM13 5h4v14h-4z"/></svg>
+    </button>
+    <button
+      type="button"
+      class="inline-flex items-center gap-2 rounded-full bg-action py-2 pl-3 pr-4 text-sm font-semibold text-ink shadow-frame transition-colors hover:bg-fold focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-action"
+      data-sound
+    >
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H2v6h4l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M19 5a10 10 0 0 1 0 14"/></svg>
+      Watch with sound · 0:30
+    </button>
+  </div>
+</div>
+
+<script is:inline>
+  document.querySelectorAll("[data-hero-video]").forEach((el) => {
+    const video = el.querySelector("[data-loop-video]");
+    const toggle = el.querySelector("[data-toggle]");
+    const sound = el.querySelector("[data-sound]");
+    const playIcon = el.querySelector("[data-icon-play]");
+    const pauseIcon = el.querySelector("[data-icon-pause]");
+
+    function sync() {
+      const playing = !video.paused;
+      playIcon.classList.toggle("hidden", playing);
+      pauseIcon.classList.toggle("hidden", !playing);
+      toggle.setAttribute("aria-label", playing ? "Pause preview" : "Play preview");
+    }
+    video.addEventListener("play", sync);
+    video.addEventListener("pause", sync);
+
+    // A pause the visitor chose is never overridden by the auto-start below.
+    let userPaused = false;
+    toggle.addEventListener("click", () => {
+      if (video.paused) {
+        userPaused = false;
+        video.play().catch(() => {});
+      } else {
+        userPaused = true;
+        video.pause();
+      }
+    });
+
+    sound.addEventListener("click", () => {
+      const full = document.createElement("video");
+      full.src = el.getAttribute("data-full");
+      full.controls = true;
+      full.autoplay = true;
+      full.playsInline = true;
+      full.setAttribute("aria-label", el.getAttribute("data-title") || "");
+      full.className = "absolute inset-0 h-full w-full bg-chrome";
+      el.replaceChildren(full);
+      full.focus();
+    });
+
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const saveData = navigator.connection && navigator.connection.saveData;
+    if (!reduceMotion && !saveData) {
+      video.preload = "auto";
+      const start = () => {
+        if (!userPaused && el.contains(video)) video.play().catch(() => {});
+      };
+      start();
+      // Browsers hold autoplay in background tabs; start once the tab shows.
+      document.addEventListener("visibilitychange", () => {
+        if (!document.hidden && video.paused) start();
+      });
+    }
+  });
+</script>

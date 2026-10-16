@@ -1,6 +1,6 @@
 # Splander Jobs Privacy Policy
 
-_Last updated: 2026-10-13_
+_Last updated: 2026-10-15_
 
 Splander Jobs is a Chrome extension that helps you track job applications you find
 on LinkedIn, Indeed, Glassdoor, AllJobs, JobNet, JobFox and Jobify, and fill in application forms. This page describes exactly what data the extension
@@ -100,6 +100,12 @@ Google's read-only Gmail scope (`gmail.readonly`).
   *result* syncs — an application's company, job title and status. No email
   content is part of it.
 - **Disconnect:** any time, from Settings → Gmail.
+- **Google API Services User Data Policy:** Splander Jobs' use and transfer
+  of information received from Google APIs to any other app will adhere to
+  the [Google API Services User Data Policy](https://developers.google.com/terms/api-services-user-data-policy),
+  including the Limited Use requirements. Gmail data is used only to update
+  your own job-application tracker. It is not used for advertising, not sold,
+  not used to train AI models, and no person at Splander reads it.
 
 The Chrome Web Store build of Splander Jobs is **read-only** with respect to your
 Gmail — it never writes anything to your mailbox. (A separate full build,
@@ -172,14 +178,21 @@ Comeet or Workday, Splander Jobs reads the form's fields so it can fill them.
 ### 8. AI features (only if you turn them on)
 
 The free CV match runs entirely on your device. The AI features (AI CV match,
-resume tailoring, profile score and drafted messages) send the CV and job text
-they need to an AI provider:
+resume tailoring, profile score, drafted messages and the Ask Splander chat)
+send the CV and job text they need to an AI provider:
 
 - **With your own API key:** your browser sends the request directly to the
   provider you choose (Google Gemini, OpenAI or Anthropic), under that
   provider's terms. The key is stored only on your device and never synced.
 - **With Premium:** the request goes through our server to Google Gemini. We
   do not store the CV or job text.
+- **Ask Splander (the chat on Home):** a typed question sends the question,
+  your last few chat messages and the tracker details needed to answer it
+  (such as company, job title, status, dates and the job description) to the
+  same provider. Jobs found in
+  your email are sent only as an internal id; their details stay on your
+  device. The suggested questions are answered on your device, with no AI.
+  The conversation is stored only on your device.
 - **Never sent:** email content from Gmail.
 
 ### 9. CV open tracking (only if you turn it on, signed in)
