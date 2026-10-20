@@ -18,7 +18,8 @@ export default defineConfig({
   site: SITE,
   base: BASE,
   trailingSlash: "never",
-  integrations: [sitemap()],
+  // /welcome is the post-install page (noindex), so keep it out of the sitemap.
+  integrations: [sitemap({ filter: (page) => !/\/welcome\/?$/.test(page) })],
   vite: {
     plugins: [tailwindcss()],
   },
