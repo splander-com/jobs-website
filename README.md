@@ -16,7 +16,6 @@ Chrome Web Store installs, seed the Premium waitlist, and collect feedback.
 ## Develop
 
 ```bash
-cd website
 npm install                # or: npm install --cache /tmp/npm-cache-jobs
 npm run dev                # http://localhost:4321
 npm run build              # static output → dist/
@@ -29,8 +28,9 @@ npm run check              # astro type/diagnostics check
 - `src/consts.ts` — slogan, short pitch, job-site list, store URL, the 5 feature pages.
 - `src/data/journeys.ts` — all copy for the 5 feature pages (edit here, no layout changes).
 - `src/components/` — `Mark`/`Wordmark`/`Lockup`/`Mascot`/`Moment` (brand-kit art from `public/brand/`), `Seo`,
-  `SiteHeader`/`SiteFooter`, section components, `FeedbackForm`, `VideoEmbed` (click-to-load facade).
-- `src/pages/` — `index`, `[slug]` (the 5 feature pages), `premium`, `privacy`, `feedback`, `404`.
+  `SiteHeader`/`SiteFooter`, section components, `FeedbackForm`, `HeroVideo` (muted autoplay loop, full video with sound on click).
+- `src/pages/` — `index`, `[slug]` (the 5 feature pages), `premium`, `privacy`, `feedback`, `404`,
+  and the extension's `welcome` (post-install) and `uninstall` (survey) pages, both noindex and out of the sitemap.
 
 ## Feedback form
 
@@ -44,8 +44,11 @@ PUBLIC_SUPABASE_URL=https://hcwnozzjsgqibhpebkhx.supabase.co
 PUBLIC_SUPABASE_ANON_KEY=<anon key>
 ```
 
-Set them in `website/.env` for local dev and in the Vercel project for production.
+Set them in `.env` for local dev and in the Vercel project for production.
 See `.env.example`.
+
+`/uninstall` posts to the same function with category/source `uninstall`, sending the
+reason codes and the install id the extension passes in `?iid=`.
 
 ## Privacy policy
 
@@ -65,7 +68,7 @@ keep it in step with what `src/components/FeedbackForm.astro` sends.
 
 ## Deploy (Vercel)
 
-1. New Vercel project, **Root Directory = `website`**, framework preset **Astro**.
+1. New Vercel project, **Root Directory = repo root**, framework preset **Astro**.
 2. Add the two `PUBLIC_*` env vars.
 3. Add domain `jobs.splander.com`.
 
