@@ -18,9 +18,10 @@ export default defineConfig({
   site: SITE,
   base: BASE,
   trailingSlash: "never",
-  // /welcome and /uninstall are the post-install and post-uninstall pages
-  // (noindex), so keep them out of the sitemap.
-  integrations: [sitemap({ filter: (page) => !/\/(welcome|uninstall)\/?$/.test(page) })],
+  // /welcome and /uninstall are the post-install and post-uninstall pages and
+  // /oauth/consent is the OAuth consent screen (all noindex), so keep them out
+  // of the sitemap.
+  integrations: [sitemap({ filter: (page) => !/\/(welcome|uninstall|oauth\/consent)\/?$/.test(page) })],
   vite: {
     plugins: [tailwindcss()],
   },

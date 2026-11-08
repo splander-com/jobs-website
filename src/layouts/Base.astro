@@ -12,9 +12,11 @@ interface Props {
   ogImage?: string;
   jsonLd?: Record<string, unknown>[];
   noindex?: boolean;
+  /** bare = no site header/footer (focused flows like /oauth/consent). */
+  bare?: boolean;
 }
 
-const { title, description, path, ogImage, jsonLd, noindex } = Astro.props;
+const { title, description, path, ogImage, jsonLd, noindex, bare = false } = Astro.props;
 ---
 
 <!doctype html>
@@ -43,10 +45,10 @@ const { title, description, path, ogImage, jsonLd, noindex } = Astro.props;
       class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[100] focus:rounded-lg focus:bg-white focus:px-4 focus:py-2 focus:text-ink focus:ring-2 focus:ring-coral-deep"
       >Skip to content</a
     >
-    <SiteHeader />
+    {!bare && <SiteHeader />}
     <main id="main">
       <slot />
     </main>
-    <SiteFooter />
+    {!bare && <SiteFooter />}
   </body>
 </html>
