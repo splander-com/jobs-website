@@ -30,7 +30,8 @@ npm run check              # astro type/diagnostics check
 - `src/components/` — `Mark`/`Wordmark`/`Lockup`/`Mascot`/`Moment` (brand-kit art from `public/brand/`), `Seo`,
   `SiteHeader`/`SiteFooter`, section components, `FeedbackForm`, `HeroVideo` (muted autoplay loop, full video with sound on click).
 - `src/pages/` — `index`, `[slug]` (the 5 feature pages), `premium`, `privacy`, `feedback`, `404`,
-  and the extension's `welcome` (post-install) and `uninstall` (survey) pages, both noindex and out of the sitemap.
+  the extension's `welcome` (post-install) and `uninstall` (survey) pages, and `oauth/consent`
+  (the OAuth consent screen). Those three are noindex and out of the sitemap.
 
 ## Feedback form
 
@@ -49,6 +50,21 @@ See `.env.example`.
 
 `/uninstall` posts to the same function with category/source `uninstall`, sending the
 reason codes and the install id the extension passes in `?iid=`.
+
+## OAuth consent page (`/oauth/consent`)
+
+The Supabase project's **OAuth 2.1 server** (used by claude.ai to connect to the `jobs-mcp`
+server) sends users here as `/oauth/consent?authorization_id=…`. It is the one page on the site
+with client JS: a small `@supabase/supabase-js` island that signs the user in with Google if
+needed, calls `supabase.auth.oauth.getAuthorizationDetails`, and sends the Allow / Deny decision
+back with `approveAuthorization` / `denyAuthorization`, then follows the returned `redirect_url`.
+
+It reads the same two `PUBLIC_SUPABASE_URL` / `PUBLIC_SUPABASE_ANON_KEY` env vars as the feedback
+form, so **both must be set in the Vercel project** (Production and Preview) or the page shows a
+"not configured" message. The Supabase side (Yoni, dashboard): Site URL `https://jobs.splander.com`,
+Authorization Path `/oauth/consent`, `https://jobs.splander.com/oauth/consent` in the Auth → URL
+Configuration redirect allow-list (the Google sign-in returns there), and the connecting app
+registered under Auth → OAuth Apps (or "Allow Dynamic OAuth Apps" turned on).
 
 ## Privacy policy
 
@@ -69,7 +85,7 @@ keep it in step with what `src/components/FeedbackForm.astro` sends.
 ## Deploy (Vercel)
 
 1. New Vercel project, **Root Directory = repo root**, framework preset **Astro**.
-2. Add the two `PUBLIC_*` env vars.
+2. Add the two `PUBLIC_*` env vars (needed by the feedback form **and** `/oauth/consent`).
 3. Add domain `jobs.splander.com`.
 
 ## Media
